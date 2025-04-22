@@ -1,0 +1,63 @@
+.aid-info-container {
+  padding: 2rem;
+  background-color: #f1f8e9;
+  text-align: center;
+}
+
+.aid-info-container h2 {
+  color: #2e7d32;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.aid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.aid-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.aid-card:hover {
+  transform: translateY(-5px);
+}
+
+.aid-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.aid-card h3 {
+  color: #388e3c;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.aid-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.aid-steps {
+  margin-top: 0.75rem;
+  background-color: #e8f5e9;
+  border-left: 5px solid #66bb6a;
+  padding: 0.75rem;
+  border-radius: 6px;
+}
+
+.aid-steps strong {
+  color: #2e7d32;
+  display: block;
+  margin-bottom: 0.3rem;
+}

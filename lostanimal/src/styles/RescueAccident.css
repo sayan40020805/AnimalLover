@@ -1,0 +1,81 @@
+/* General container styling */
+.rescue-accident-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    margin-left: 400px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Heading styles */
+  .rescue-accident-container h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .rescue-accident-container p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  /* Form styling */
+  .rescue-accident-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Input fields */
+  .rescue-accident-form label {
+    font-size: 1rem;
+    color: #444;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .rescue-accident-form input,
+  .rescue-accident-form textarea {
+    width: 500px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  /* Image upload */
+  .rescue-accident-form input[type="file"] {
+    padding: 5px;
+  }
+  
+  /* Submit button */
+  .submit-button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .rescue-accident-container {
+      width: 90%;
+      padding: 15px;
+    }
+  }
+  

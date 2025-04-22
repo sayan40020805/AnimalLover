@@ -1,0 +1,190 @@
+/* General styles for the home container */
+.home-title{
+  color: #121212;
+}
+.home-subtitle{
+  color: #121212;
+  font-size: 22px;
+}
+.home-container {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fbf8f8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 1225px;
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode .home-container {
+  background-color: #1e1e1e;
+}
+
+.dark-mode .home-title,
+.dark-mode .action-title{
+  color: #fffeff;
+}
+
+.dark-mode .home-subtitle
+{
+  color: #f3f3f6;
+}
+
+.dark-mode .home-button {
+  background-color: #2637d9;
+}
+
+.dark-mode .home-button:hover {
+  background-color: #2637d9;
+}
+
+/* Top Navigation - Positioned to Top Right */
+.top-navigation {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  padding: 0;
+}
+
+.nav-item {
+  display: inline-block;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #2637d9;
+  color: rgb(249, 245, 245);
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #4761f6;
+  color: #121212;
+  transform: scale(1.05);
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #0056b3;
+}
+
+/* Action Section */
+.action-section {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.action-title {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.action-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  padding: 0;
+}
+
+.action-item {
+  flex: 1 1 200px;
+}
+
+.home-button {
+  display: block;
+  padding: 15px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  font-size:1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-align: center;
+  height: 55px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.home-button:hover {
+  background-color: #338cec;
+  transform: scale(1.05);
+  color: #121212;
+}
+
+/* Adopt an Animal Section */
+.adopt-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.adopt-title {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.adopt-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.adopt-link {
+  background-color: #2637d9;
+  font-size: 1.1rem;
+  padding: 12px 25px;
+  display: inline-block;
+  border-radius: 8px;
+}
+
+.adopt-link:hover {
+  background-color: #e68900;
+}
+
+/* Footer Section */
+.home-footer {
+  margin-top: 30px;
+  font-size: 1rem;
+  color: #777;
+}

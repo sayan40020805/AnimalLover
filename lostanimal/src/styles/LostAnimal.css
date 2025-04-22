@@ -1,0 +1,67 @@
+.lost-animal-container {
+  max-width: 600px;
+  margin: 20px auto;
+  margin-left: 400px;
+  margin-top: 100px;
+  padding: 50px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, color 0.3s;
+  background: linear-gradient(135deg, #f9f9f9, #e3e3e3);
+  color: #333;
+}
+.dark-mode {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+h2, p {
+  text-align: center;
+}
+
+.lost-animal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  margin-top: 15px;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background: #0056b3;
+}
+
+.dark-mode-toggle {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 15px;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dark-mode-toggle:hover {
+  background: #666;
+}
