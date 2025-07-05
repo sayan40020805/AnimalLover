@@ -1,11 +1,13 @@
 /* General styles for the home container */
-.home-title{
+.home-title {
   color: #121212;
 }
-.home-subtitle{
+
+.home-subtitle {
   color: #121212;
   font-size: 22px;
 }
+
 .home-container {
   text-align: center;
   padding: 50px 20px;
@@ -15,7 +17,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 1225px;
+  width: 1649px;
   position: relative;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -31,12 +33,11 @@ body.dark-mode {
 }
 
 .dark-mode .home-title,
-.dark-mode .action-title{
+.dark-mode .action-title {
   color: #fffeff;
 }
 
-.dark-mode .home-subtitle
-{
+.dark-mode .home-subtitle {
   color: #f3f3f6;
 }
 
@@ -133,7 +134,7 @@ body.dark-mode {
   background-color: #007bff;
   color: white;
   text-decoration: none;
-  font-size:1.1rem;
+  font-size: 1.1rem;
   font-weight: bold;
   border-radius: 8px;
   text-align: center;
