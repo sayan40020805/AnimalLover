@@ -1,0 +1,34 @@
+/* Enable dark mode globally */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+/* Example: universal container styles */
+.dark-mode .container {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+
+/* Update buttons in dark mode */
+.dark-mode .home-button,
+.dark-mode .nav-link,
+.dark-mode .dark-mode-toggle {
+    background-color: #2637d9;
+    color: white;
+}
+
+.dark-mode .home-button:hover,
+.dark-mode .nav-link:hover,
+.dark-mode .dark-mode-toggle:hover {
+    background-color: #4761f6;
+    color: #fff;
+}
+
+/* Optional: section overrides */
+.dark-mode section,
+.dark-mode .about-section,
+.dark-mode .adopt-section {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}

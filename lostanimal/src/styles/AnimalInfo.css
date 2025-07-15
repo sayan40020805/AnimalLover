@@ -2,6 +2,7 @@
   padding: 2rem;
   background-color: #f1f8e9;
   text-align: center;
+  width: 1640px;
 }
 
 .aid-info-container h2 {
@@ -13,7 +14,7 @@
 .aid-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .aid-card {
@@ -30,7 +31,7 @@
 }
 
 .aid-image {
-  width: 100%;
+  /* width: 100%; */
   height: 180px;
   object-fit: cover;
   border-radius: 8px;

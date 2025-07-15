@@ -1,59 +1,65 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Signup.css";
 
 const UserSignup = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("User signup data:", formData);
-    // TODO: Send data to backend API
+    try {
+      const res = await fetch("/api/users/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("User registered! Please login.");
+        navigate("/login");
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      alert("Something went wrong");
+    }
   };
 
   return (
     <div className="signup-container">
-      <h2 className="signup-title">User Sign Up</h2>
-      <form onSubmit={handleSubmit} className="signup-form">
+      <h2>User Signup</h2>
+      <form className="signup-form" onSubmit={handleSubmit}>
         <input
-          type="text"
           name="name"
+          type="text"
           placeholder="Full Name"
+          value={form.name}
           onChange={handleChange}
           required
         />
         <input
-          type="email"
           name="email"
+          type="email"
           placeholder="Email"
+          value={form.email}
           onChange={handleChange}
           required
         />
         <input
-          type="tel"
-          name="phone"
-          placeholder="Phone Number"
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
           name="password"
+          type="password"
           placeholder="Password"
+          value={form.password}
           onChange={handleChange}
           required
         />
-        <button type="submit" className="signup-button">
-          Register
-        </button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );

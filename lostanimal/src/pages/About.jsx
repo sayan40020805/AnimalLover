@@ -1,7 +1,5 @@
-//import React from "react";
 import "../styles/About.css";
-
-import aboutImage from "../assets/rescue.png"; // Make sure you have this image in your /assets folder
+import aboutImage from "../assets/rescue.png";
 
 const About = () => {
   return (

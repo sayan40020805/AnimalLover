@@ -1,0 +1,85 @@
+/* Navbar Container */
+.top-navigation {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #ffffff;
+    z-index: 1000;
+    padding: 10px 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Dark Mode Navbar */
+body.dark-mode .top-navigation {
+    background-color: #1e1e1e;
+    box-shadow: 0px 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Navbar List */
+.nav-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Item */
+.nav-item {
+    display: inline-block;
+}
+
+/* Navbar Link Styles */
+.nav-link,
+.logout-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #2637d9;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hover Effects */
+.nav-link:hover,
+.logout-button:hover {
+    background-color: #4761f6;
+    transform: scale(1.05);
+    color: #ffffff;
+}
+
+/* Dark Mode Links */
+body.dark-mode .nav-link,
+body.dark-mode .logout-button {
+    background-color: #3b4cca;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .logout-button:hover {
+    background-color: #5a6cf1;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .nav-link,
+    .logout-button {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+}
