@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import "../styles/RescueDead.css";
 
@@ -18,11 +19,38 @@ const RescueDead = () => {
     setFormData({ ...formData, image: file });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Dead Animal Report Submitted:", formData);
-    alert("Report for the deceased animal submitted successfully!");
-    // Here, you can send the data to the backend API
+
+    const data = new FormData();
+    data.append("location", formData.location);
+    data.append("description", formData.description);
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/rescue-dead", {
+        method: "POST",
+        body: data,
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Report for the deceased animal submitted successfully!");
+        setFormData({
+          location: "",
+          description: "",
+          image: null,
+        });
+      } else {
+        alert(result.message || "Failed to submit report");
+      }
+    } catch (error) {
+      console.error("Error submitting report:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (

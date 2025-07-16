@@ -1,5 +1,7 @@
+// src/components/Navbar.jsx
+import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Navber.css";
+import "../styles/Navber.css"; // ✅ Make sure the filename matches exactly
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -11,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="top-navigation">
+        <nav className="top-navigation" role="navigation">
             <ul className="nav-list">
                 <li className="nav-item">
                     <Link to="/" className="nav-link">Home</Link>
@@ -19,6 +21,7 @@ const Navbar = () => {
                 <li className="nav-item">
                     <Link to="/about" className="nav-link">About</Link>
                 </li>
+
                 {!isLoggedIn ? (
                     <>
                         <li className="nav-item">
@@ -30,7 +33,11 @@ const Navbar = () => {
                     </>
                 ) : (
                     <li className="nav-item">
-                        <button className="nav-link logout-button" onClick={handleLogout}>
+                        <button
+                            className="nav-link logout-button"
+                            onClick={handleLogout}
+                            aria-label="Logout"
+                        >
                             Logout
                         </button>
                     </li>

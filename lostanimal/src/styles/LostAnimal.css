@@ -1,67 +1,115 @@
+/* Lost Animal Container */
 .lost-animal-container {
   max-width: 600px;
-  margin: 20px auto;
-  margin-left: 400px;
-  margin-top: 100px;
-  padding: 50px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s, color 0.3s;
-  background: linear-gradient(135deg, #f9f9f9, #e3e3e3);
+  margin: 100px auto 40px;
+  padding: 40px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff, #e8f5e9);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   color: #333;
-}
-.dark-mode {
-  background: #1e1e1e;
-  color: #ffffff;
+  transition: background 0.3s ease, color 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
-h2, p {
+/* Title and Subtitle */
+.lost-animal-container h2,
+.lost-animal-container p {
   text-align: center;
+  margin-bottom: 20px;
 }
 
+/* Form */
 .lost-animal-form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
 }
 
-label {
-  margin-top: 10px;
-  font-weight: bold;
+/* Labels */
+.lost-animal-form label {
+  font-weight: 600;
+  color: #2e7d32;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
+/* Inputs and Textarea */
+.lost-animal-form input,
+.lost-animal-form textarea {
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
 }
 
+.lost-animal-form input:focus,
+.lost-animal-form textarea:focus {
+  border-color: #388e3c;
+  outline: none;
+}
+
+/* Submit Button */
 .submit-button {
-  margin-top: 15px;
-  padding: 10px;
-  background: #007bff;
+  padding: 12px;
+  background-color: #2637d9;
   color: white;
+  font-weight: bold;
+  font-size: 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submit-button:hover {
-  background: #0056b3;
+  background-color: #4761f6;
+  transform: scale(1.03);
 }
 
+/* Dark Mode Toggle Button */
 .dark-mode-toggle {
   display: block;
-  margin: 10px auto;
-  padding: 8px 15px;
+  margin: 20px auto 0;
+  padding: 10px 20px;
   border: none;
-  background: #444;
+  background: #333;
   color: white;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
 .dark-mode-toggle:hover {
-  background: #666;
+  background: #555;
+}
+
+/* ==================== Dark Mode ==================== */
+body.dark-mode .lost-animal-container {
+  background: linear-gradient(135deg, #2a2a2a, #1e1e1e);
+  color: #eee;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .lost-animal-form label {
+  color: #81c784;
+}
+
+body.dark-mode .lost-animal-form input,
+body.dark-mode .lost-animal-form textarea {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+body.dark-mode .lost-animal-form input:focus,
+body.dark-mode .lost-animal-form textarea:focus {
+  border-color: #81c784;
+}
+
+body.dark-mode .submit-button {
+  background-color: #66bb6a;
+}
+
+body.dark-mode .submit-button:hover {
+  background-color: #81c784;
 }

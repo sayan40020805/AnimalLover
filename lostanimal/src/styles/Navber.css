@@ -1,31 +1,33 @@
-/* Navbar Container */
+/* ================= NAVBAR ================= */
 .top-navigation {
     position: fixed;
     top: 0;
     width: 100%;
+    padding: 12px 24px;
     background-color: #ffffff;
-    z-index: 1000;
-    padding: 10px 20px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
     flex-wrap: wrap;
 }
 
 /* Dark Mode Navbar */
 body.dark-mode .top-navigation {
     background-color: #1e1e1e;
-    box-shadow: 0px 2px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
 }
 
 /* Navbar List */
 .nav-list {
-    list-style: none;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 0;
+    gap: 12px;
     padding: 0;
+    margin: 0;
+    list-style: none;
+    flex-wrap: wrap;
 }
 
 /* Navbar Item */
@@ -33,28 +35,28 @@ body.dark-mode .top-navigation {
     display: inline-block;
 }
 
-/* Navbar Link Styles */
+/* Link & Button Shared Style */
 .nav-link,
 .logout-button {
     display: inline-block;
-    padding: 10px 15px;
-    background-color: #2637d9;
-    color: white;
-    text-decoration: none;
+    padding: 10px 18px;
     font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background-color: #2637d9;
     border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap;
+    text-decoration: none;
     border: none;
     cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-/* Hover Effects */
 .nav-link:hover,
 .logout-button:hover {
     background-color: #4761f6;
-    transform: scale(1.05);
-    color: #ffffff;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Dark Mode Links */
@@ -66,20 +68,31 @@ body.dark-mode .logout-button {
 body.dark-mode .nav-link:hover,
 body.dark-mode .logout-button:hover {
     background-color: #5a6cf1;
-    color: white;
 }
 
-/* Responsive Design */
+/* ================= RESPONSIVENESS ================= */
 @media (max-width: 768px) {
-    .nav-list {
-        flex-direction: row;
+    .top-navigation {
         justify-content: center;
-        flex-wrap: wrap;
+        padding: 12px 16px;
     }
 
     .nav-link,
     .logout-button {
-        font-size: 0.9rem;
-        padding: 8px 12px;
+        font-size: 0.95rem;
+        padding: 8px 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-list {
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .nav-link,
+    .logout-button {
+        font-size: 0.85rem;
+        padding: 8px 10px;
     }
 }

@@ -1,4 +1,5 @@
 // src/components/Layout.jsx
+import React from 'react';
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -15,19 +16,18 @@ const Layout = () => {
     };
 
     useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add("dark-mode");
-        } else {
-            document.body.classList.remove("dark-mode");
-        }
+        document.body.classList.toggle("dark-mode", darkMode);
     }, [darkMode]);
 
     return (
         <>
             <Navbar />
+
+            {/* Dark Mode Toggle Button */}
             <button
                 onClick={toggleDarkMode}
                 className="dark-mode-toggle"
+                aria-label="Toggle Dark Mode"
                 style={{
                     position: "fixed",
                     top: 20,
@@ -37,13 +37,15 @@ const Layout = () => {
                     borderRadius: "8px",
                     cursor: "pointer",
                     backgroundColor: "#007bff",
-                    color: "white",
+                    color: "#fff",
                     fontSize: "1rem",
                     zIndex: 1000,
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                 }}
             >
                 {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
             </button>
+
             <main style={{ paddingTop: "80px" }}>
                 <Outlet />
             </main>

@@ -1,33 +1,29 @@
-import { useState } from "react";
+// src/pages/UserSignup.jsx
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api"; // Axios instance
 import "../styles/Signup.css";
 
 const UserSignup = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", phone: "" });
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/users/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      // ✅ Hitting the correct backend route
+      const res = await api.post("/auth/signup", form);
 
-      const data = await res.json();
-      if (res.ok) {
-        alert("User registered! Please login.");
-        navigate("/login");
-      } else {
-        alert(data.message || "Signup failed");
-      }
+      alert("User registered successfully! Please login.");
+      navigate("/login");
     } catch (err) {
       console.error("Signup error:", err);
-      alert("Something went wrong");
+      alert(err.response?.data?.message || "Signup failed. Please try again.");
     }
   };
 
@@ -48,6 +44,14 @@ const UserSignup = () => {
           type="email"
           placeholder="Email"
           value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="phone"
+          type="text"
+          placeholder="Phone Number"
+          value={form.phone}
           onChange={handleChange}
           required
         />

@@ -1,49 +1,100 @@
+/* 📦 Signup Container */
 .signup-container {
-    width: 400px;
-    margin: 80px auto;
-    margin-left: 450px;
-    padding: 30px;
-    background-color: #fdfdfd;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+  max-width: 420px;
+  margin: 100px auto;
+  padding: 30px;
+  background-color: #fdfdfd;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
 
-    text-align: center;
+/* 🧾 Title */
+.signup-title,
+h2 {
+  font-size: 2rem;
+  color: #2637d9;
+  margin-bottom: 20px;
+}
+
+/* 📄 Form */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 🧍 Input Fields */
+.signup-form input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.signup-form input:focus {
+  border-color: #2637d9;
+  outline: none;
+}
+
+/* 🚀 Signup Button */
+.signup-button {
+  background-color: #2637d9;
+  color: white;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.signup-button:hover {
+  background-color: #4761f6;
+  transform: scale(1.03);
+}
+
+/* 🌙 Dark Mode */
+body.dark-mode .signup-container {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+body.dark-mode .signup-title,
+body.dark-mode h2 {
+  color: #66b2ff;
+}
+
+body.dark-mode .signup-form input {
+  background-color: #2c2c2c;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+body.dark-mode .signup-form input:focus {
+  border-color: #66b2ff;
+}
+
+body.dark-mode .signup-button {
+  background-color: #4761f6;
+}
+
+body.dark-mode .signup-button:hover {
+  background-color: #5f7df8;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .signup-container {
+    width: 90%;
+    padding: 25px;
   }
-  
-  .signup-title {
-    font-size: 2rem;
-    color: #2637d9;
-    margin-bottom: 20px;
-  }
-  
-  .signup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .signup-form input {
-    padding: 12px;
-    font-size: 1rem;
-    width: 350px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
+
+  .signup-form input,
   .signup-button {
-    background-color: #2637d9;
-    color: white;
-    width: 375px;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 100%;
   }
-  
-  .signup-button:hover {
-    background-color: #4761f6;
-  }
-  
+}

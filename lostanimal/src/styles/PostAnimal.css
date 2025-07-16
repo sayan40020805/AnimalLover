@@ -1,66 +1,121 @@
-/* PostAnimal.css */
-
+/* Post Animal Form Container */
 .post-animal-container {
   width: 400px;
-  margin: 30px auto;
-  margin-left: 400px;
+  margin: 100px auto 30px;
   padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #f9f9f9, #e3e3e3);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #ffffff, #f1f1f1);
   color: #333;
   text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Form Layout */
 .post-animal-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
-input, textarea {
+/* Input and Textarea */
+.post-animal-form input,
+.post-animal-form textarea {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1.8px solid #ccc;
+  border-radius: 10px;
   font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  transition: border-color 0.3s;
 }
 
-textarea {
+.post-animal-form input:focus,
+.post-animal-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Textarea Specific */
+.post-animal-form textarea {
   height: 100px;
   resize: none;
 }
 
+/* Image Upload Styling */
 .image-upload {
   background: #007bff;
   color: white;
-  padding: 10px;
+  padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
-  text-align: center;
   display: inline-block;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.image-upload:hover {
+  background: #0056b3;
 }
 
 .image-upload input {
   display: none;
 }
 
+/* Preview Image */
 .preview-image {
   max-width: 100%;
-  margin-top: 10px;
-  border-radius: 8px;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Submit Button */
 .submit-button {
-  padding: 12px;
+  padding: 14px;
   background: #28a745;
   color: white;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .submit-button:hover {
   background: #218838;
+  transform: scale(1.02);
+}
+
+/* 🌙 Optional: Dark Mode */
+body.dark-mode .post-animal-container {
+  background: linear-gradient(135deg, #2a2a2a, #1e1e1e);
+  color: #f1f1f1;
+}
+
+body.dark-mode .post-animal-form input,
+body.dark-mode .post-animal-form textarea {
+  background: #333;
+  color: #f1f1f1;
+  border: 1px solid #555;
+}
+
+body.dark-mode .post-animal-form input:focus,
+body.dark-mode .post-animal-form textarea:focus {
+  border-color: #66b2ff;
+}
+
+body.dark-mode .image-upload {
+  background: #3b4cca;
+}
+
+body.dark-mode .submit-button {
+  background: #218838;
+}
+
+body.dark-mode .submit-button:hover {
+  background: #2ecc71;
 }

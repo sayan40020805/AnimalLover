@@ -1,26 +1,21 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("user"); // default is user
+  const [userType, setUserType] = useState("user"); // user or volunteer
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const endpoint =
-      userType === "user"
-        ? "/api/users/login"
-        : "/api/volunteers/login";
-
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, role: userType }), // ✅ include role
       });
 
       const data = await res.json();
@@ -31,11 +26,11 @@ const Login = () => {
         localStorage.setItem("userType", userType);
         navigate("/");
       } else {
-        alert(data.message || "Login failed");
+        alert(data.message || "Login failed. Please check your credentials.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Something went wrong");
+      alert("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -45,30 +40,35 @@ const Login = () => {
 
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             className="form-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="email"
           />
         </div>
 
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             type="password"
             className="form-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="current-password"
           />
         </div>
 
         <div className="form-group">
-          <label>Login as:</label>
+          <label htmlFor="userType">Login as:</label>
           <select
+            id="userType"
             value={userType}
             onChange={(e) => setUserType(e.target.value)}
             className="form-input"

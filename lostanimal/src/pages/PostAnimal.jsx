@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import "../styles/PostAnimal.css";
 
@@ -13,52 +14,72 @@ const PostAnimal = () => {
 
   const [preview, setPreview] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData({ ...formData, image: file });
+      setFormData((prev) => ({ ...prev, image: file }));
       setPreview(URL.createObjectURL(file));
     }
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !formData.name ||
-      !formData.age ||
-      !formData.breed ||
-      !formData.location ||
-      !formData.description ||
-      !formData.image
-    ) {
+    const { name, age, breed, location, description, image } = formData;
+
+    if (!name || !age || !breed || !location || !description || !image) {
       alert("Please fill in all fields and upload an image.");
       return;
     }
 
-    setSuccessMessage("Animal posted for adoption successfully!");
+    try {
+      setSubmitting(true);
+      const data = new FormData();
+      data.append("name", name);
+      data.append("age", age);
+      data.append("breed", breed);
+      data.append("location", location);
+      data.append("description", description);
+      data.append("image", image);
 
-    setTimeout(() => setSuccessMessage(""), 3000);
+      const res = await fetch("/api/animals", {
+        method: "POST",
+        body: data,
+      });
 
-    setFormData({
-      name: "",
-      age: "",
-      breed: "",
-      location: "",
-      description: "",
-      image: null,
-    });
+      const result = await res.json();
 
-    setPreview(null);
+      if (res.ok) {
+        setSuccessMessage("Animal posted for adoption successfully!");
+        setFormData({
+          name: "",
+          age: "",
+          breed: "",
+          location: "",
+          description: "",
+          image: null,
+        });
+        setPreview(null);
+        setTimeout(() => setSuccessMessage(""), 3000);
+      } else {
+        alert(result.message || "Failed to post animal.");
+      }
+    } catch (error) {
+      console.error("Post error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -122,8 +143,8 @@ const PostAnimal = () => {
           <img src={preview} alt="Preview" className="preview-image" />
         )}
 
-        <button type="submit" className="submit-button">
-          Post for Adoption
+        <button type="submit" className="submit-button" disabled={submitting}>
+          {submitting ? "Posting..." : "Post for Adoption"}
         </button>
       </form>
     </div>

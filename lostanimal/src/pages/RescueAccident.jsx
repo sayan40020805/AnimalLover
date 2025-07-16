@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import "../styles/RescueAccident.css";
 
@@ -18,19 +19,44 @@ const RescueAccident = () => {
     setFormData({ ...formData, image: file });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Injured Animal Report Submitted:", formData);
-    alert("Rescue report for the injured animal submitted successfully!");
-    // Here, you can send the data to the backend API
+
+    const data = new FormData();
+    data.append("location", formData.location);
+    data.append("description", formData.description);
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/rescue-accident", {
+        method: "POST",
+        body: data,
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Rescue report submitted successfully!");
+        setFormData({
+          location: "",
+          description: "",
+          image: null,
+        });
+      } else {
+        alert(result.message || "Failed to submit report");
+      }
+    } catch (err) {
+      console.error("Error submitting rescue report:", err);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
     <div className="rescue-accident-container">
       <h2>Report an Injured Animal</h2>
-      <p>
-        If you see an injured animal, please provide details so we can help.
-      </p>
+      <p>If you see an injured animal, please provide details so we can help.</p>
 
       <form onSubmit={handleSubmit} className="rescue-accident-form">
         <label>

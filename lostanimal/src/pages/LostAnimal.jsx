@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import "../styles/LostAnimal.css";
 
@@ -8,32 +9,61 @@ const LostAnimal = () => {
     description: "",
     image: null,
   });
-  //const [darkMode, setDarkMode] = useState(false);
+
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+    setFormData((prev) => ({ ...prev, image: file }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Lost Animal Report Submitted:", formData);
-    alert("Lost animal report submitted successfully!");
+    setSubmitting(true);
+
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("location", formData.location);
+      data.append("description", formData.description);
+      if (formData.image) {
+        data.append("image", formData.image);
+      }
+
+      const res = await fetch("/api/lost-animals", {
+        method: "POST",
+        body: data,
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Lost animal report submitted successfully!");
+        // Reset form
+        setFormData({
+          name: "",
+          location: "",
+          description: "",
+          image: null,
+        });
+      } else {
+        alert(result.message || "Submission failed");
+      }
+    } catch (error) {
+      console.error("Submit Error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="lost-animal-container">
-      {/* <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="dark-mode-toggle"
-      >
-        {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
-      </button> */}
       <h2>Report a Lost Animal</h2>
       <p>If you have lost an animal, please provide the details below.</p>
 
@@ -72,11 +102,15 @@ const LostAnimal = () => {
 
         <label>
           Upload Image:
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </label>
 
-        <button type="submit" className="submit-button">
-          Submit Report
+        <button type="submit" className="submit-button" disabled={submitting}>
+          {submitting ? "Submitting..." : "Submit Report"}
         </button>
       </form>
     </div>

@@ -1,6 +1,7 @@
+import React from 'react';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/api"; // ✅ use centralized axios instance
 import "../styles/Signup.css";
 
 const VolunteerSignup = () => {
@@ -26,7 +27,7 @@ const VolunteerSignup = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/volunteers/signup", formData);
+      const res = await api.post("/volunteers/signup", formData);
 
       if (res.data.success) {
         alert("Volunteer registered successfully!");
@@ -35,7 +36,7 @@ const VolunteerSignup = () => {
         setError(res.data.message || "Something went wrong.");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Signup error:", err);
       setError(err.response?.data?.message || "Server error. Try again.");
     } finally {
       setLoading(false);

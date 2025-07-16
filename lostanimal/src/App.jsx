@@ -1,4 +1,5 @@
 // src/App.jsx
+import React from 'react'; // ✅ Add this line
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 
@@ -25,8 +26,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
-          <Route path="usersignup" element={<UserSignup />} />
-          <Route path="volunteersignup" element={<VolunteerSignup />} />
+          <Route path="user-signup" element={<UserSignup />} />
+          <Route path="volunteer-signup" element={<VolunteerSignup />} />
           <Route path="signup" element={<SignupSelection />} />
           <Route path="lost-animal" element={<LostAnimal />} />
           <Route path="rescue-dead" element={<RescueDead />} />
@@ -34,6 +35,17 @@ function App() {
           <Route path="animal-info" element={<AnimalInfo />} />
           <Route path="view-animals" element={<ViewAnimals />} />
           <Route path="post-animal" element={<PostAnimals />} />
+
+          {/* 404 Fallback Route */}
+          <Route
+            path="*"
+            element={
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <h2>404 - Page Not Found</h2>
+                <p>The page you are looking for does not exist.</p>
+              </div>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

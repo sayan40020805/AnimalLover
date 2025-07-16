@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
@@ -22,7 +23,6 @@ const Home = () => {
 
   return (
     <main className={`home-container ${darkMode ? "dark" : ""}`}>
-      {/* ✅ Navbar now imported */}
       <Navbar />
 
       <button onClick={toggleDarkMode} className="dark-mode-toggle">
@@ -72,7 +72,6 @@ const Home = () => {
         </Link>
       </section>
 
-      {/* ✅ Footer now imported */}
       <Footer />
     </main>
   );

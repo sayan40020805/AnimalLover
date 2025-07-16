@@ -1,29 +1,25 @@
+import React from 'react';
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ViewAnimals.css";
 
 const ViewAnimals = () => {
+  const [animals, setAnimals] = useState([]);
   const navigate = useNavigate();
 
-  const animals = [
-    {
-      id: 1,
-      name: "Buddy",
-      age: "2 years",
-      breed: "Golden Retriever",
-      location: "New York",
-      description: "Friendly and playful dog looking for a loving home.",
-      imageUrl: "https://via.placeholder.com/200",
-    },
-    {
-      id: 2,
-      name: "Mittens",
-      age: "1 year",
-      breed: "Persian Cat",
-      location: "Los Angeles",
-      description: "Calm and affectionate cat seeking a cozy home.",
-      imageUrl: "https://via.placeholder.com/200",
-    },
-  ];
+  useEffect(() => {
+    const fetchAnimals = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/animals");
+        const data = await res.json();
+        setAnimals(data);
+      } catch (error) {
+        console.error("Error fetching animals:", error);
+      }
+    };
+
+    fetchAnimals();
+  }, []);
 
   return (
     <div className="view-animals-container">
@@ -41,18 +37,12 @@ const ViewAnimals = () => {
       ) : (
         <div className="animal-list">
           {animals.map((animal) => (
-            <div key={animal.id} className="animal-card">
+            <div key={animal._id} className="animal-card">
               <img src={animal.imageUrl} alt={animal.name} />
               <h3>{animal.name}</h3>
-              <p>
-                <strong>Breed:</strong> {animal.breed}
-              </p>
-              <p>
-                <strong>Age:</strong> {animal.age}
-              </p>
-              <p>
-                <strong>Location:</strong> {animal.location}
-              </p>
+              <p><strong>Breed:</strong> {animal.breed}</p>
+              <p><strong>Age:</strong> {animal.age}</p>
+              <p><strong>Location:</strong> {animal.location}</p>
               <p>{animal.description}</p>
               <button className="adopt-button">Adopt Now</button>
             </div>

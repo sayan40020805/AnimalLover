@@ -1,6 +1,7 @@
+import React from 'react';
 import "../styles/AnimalInfo.css";
 import wildanimal from "../assets/wild_animal.jpg";
-import Reptiles from "../assets/reptiles.png";
+import reptiles from "../assets/reptiles.png";
 import birdsImg from "../assets/birds.jpg";
 import dogs from "../assets/dogs.jpg";
 
@@ -15,7 +16,7 @@ const categoryData = [
   },
   {
     category: "Reptiles",
-    image: Reptiles,
+    image: reptiles,
     description:
       "Reptiles like snakes, turtles, and crocodiles are often hit by vehicles or found trapped in human spaces.",
     firstAid:
@@ -46,7 +47,11 @@ const AnimalAidInfo = () => {
       <div className="aid-grid">
         {categoryData.map((item, index) => (
           <div key={index} className="aid-card">
-            <img src={item.image} alt={item.category} className="aid-image" />
+            <img
+              src={item.image}
+              alt={`Image of ${item.category}`}
+              className="aid-image"
+            />
             <h3>{item.category}</h3>
             <p>{item.description}</p>
             <div className="aid-steps">

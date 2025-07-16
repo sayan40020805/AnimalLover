@@ -1,39 +1,74 @@
 .signup-selection-container {
-    margin-left: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 20px;
-    height: 200px;
-    background-color: #f9f9f9;
+  max-width: 500px;
+  margin: 100px auto;
+  padding: 40px 30px;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Heading */
+.signup-selection-container h2 {
+  font-size: 2rem;
+  color: #2637d9;
+  margin-bottom: 25px;
+}
+
+/* Options Layout */
+.signup-options {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Option Buttons */
+.signup-option-button {
+  padding: 14px 24px;
+  background-color: #2637d9;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.signup-option-button:hover {
+  background-color: #4761f6;
+  transform: scale(1.05);
+}
+
+/* 🌙 Dark Mode Support */
+body.dark-mode .signup-selection-container {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+body.dark-mode .signup-selection-container h2 {
+  color: #66b2ff;
+}
+
+body.dark-mode .signup-option-button {
+  background-color: #4761f6;
+}
+
+body.dark-mode .signup-option-button:hover {
+  background-color: #5f7df8;
+}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
+  .signup-selection-container {
+    width: 90%;
+    padding: 30px 20px;
   }
-  
-  .signup-selection-container h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: #333;
-  }
-  
-  .signup-options {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
+
   .signup-option-button {
-    padding: 15px 25px;
-    background-color: #2637d9;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    text-align: center;
   }
-  
-  .signup-option-button:hover {
-    background-color: #4761f6;
-    transform: scale(1.05);
-  }
-  
+}
