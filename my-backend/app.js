@@ -9,10 +9,12 @@ import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
+// Route Imports
 import userRoutes from './routes/userRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
 import rescueRoutes from './routes/rescueRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import lostAnimalRoutes from './routes/lostAnimalRoutes.js'; // ✅ ADD THIS
 
 dotenv.config();
 
@@ -37,6 +39,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/animals', animalRoutes);
 app.use('/api/rescue', rescueRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/lost-animals', lostAnimalRoutes); // ✅ ADD THIS
 
 // Error handlers
 app.use(notFound);

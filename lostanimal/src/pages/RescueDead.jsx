@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import "../styles/RescueDead.css";
 
 const RescueDead = () => {
@@ -30,7 +29,7 @@ const RescueDead = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/rescue-dead", {
+      const res = await fetch("http://localhost:5000/api/rescue/dead", {
         method: "POST",
         body: data,
       });
@@ -44,6 +43,8 @@ const RescueDead = () => {
           description: "",
           image: null,
         });
+        // Optional: reset file input visually
+        document.getElementById("imageInput").value = "";
       } else {
         alert(result.message || "Failed to submit report");
       }
@@ -56,9 +57,7 @@ const RescueDead = () => {
   return (
     <div className="rescue-dead-container">
       <h2>Report a Deceased Animal</h2>
-      <p>
-        If you have spotted a deceased animal, please provide details below.
-      </p>
+      <p>If you have spotted a deceased animal, please provide details below.</p>
 
       <form onSubmit={handleSubmit} className="rescue-dead-form">
         <label>
@@ -84,7 +83,12 @@ const RescueDead = () => {
 
         <label>
           Upload Image:
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input
+            id="imageInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </label>
 
         <button type="submit" className="submit-button">

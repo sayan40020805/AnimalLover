@@ -1,13 +1,27 @@
+// controllers/animalController.js
 import Animal from '../models/Animal.js';
 
 export const postAnimal = async (req, res) => {
   try {
-    const { name, image, description } = req.body;
-    const animal = new Animal({ name, image, description });
-    await animal.save();
-    res.status(201).json({ message: 'Animal posted successfully', animal });
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to post animal' });
+    const { name, location, description } = req.body;
+
+    if (!name || !location || !description) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const newAnimal = new Animal({
+      name,
+      location,
+      description,
+      image: req.file ? `/uploads/${req.file.filename}` : null,
+      createdBy: '000000000000000000000000', // dummy ID or req.user.id if using auth
+    });
+
+    await newAnimal.save();
+    res.status(201).json({ message: 'Animal posted successfully', animal: newAnimal });
+  } catch (error) {
+    console.error('Post Animal Error:', error);
+    res.status(500).json({ message: 'Server error during animal submission' });
   }
 };
 

@@ -3,13 +3,10 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
 
-// Helper function to generate JWT
+// ✅ Helper: Generate JWT token
 const generateToken = (user, role) => {
   return jwt.sign(
-    {
-      id: user._id,
-      role,
-    },
+    { id: user._id, role },
     process.env.JWT_SECRET,
     { expiresIn: '7d' }
   );
@@ -20,20 +17,25 @@ export const signupUser = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
 
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const existingUser = await User.findOne({ email });
-    if (existingUser)
+    if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
+    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    // ✅ No need to hash manually, model handles it
     const newUser = await User.create({
       name,
       email,
       phone,
-      password: hashedPassword,
+      password,
     });
 
     res.status(201).json({
+      message: 'User registered successfully',
       user: {
         id: newUser._id,
         name: newUser.name,
@@ -52,21 +54,26 @@ export const registerVolunteer = async (req, res) => {
   try {
     const { name, email, password, phone, location } = req.body;
 
+    if (!name || !email || !password || !phone || !location) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const existingVolunteer = await Volunteer.findOne({ email });
-    if (existingVolunteer)
+    if (existingVolunteer) {
       return res.status(400).json({ message: 'Volunteer already exists' });
+    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    // ✅ Let model handle password hashing
     const newVolunteer = await Volunteer.create({
       name,
       email,
       phone,
       location,
-      password: hashedPassword,
+      password,
     });
 
     res.status(201).json({
+      message: 'Volunteer registered successfully',
       volunteer: {
         id: newVolunteer._id,
         name: newVolunteer.name,
@@ -85,13 +92,17 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
+    if (!email || !password || !role) {
+      return res.status(400).json({ message: 'Email, password, and role are required' });
+    }
+
     let account;
     if (role === 'user') {
       account = await User.findOne({ email });
     } else if (role === 'volunteer') {
       account = await Volunteer.findOne({ email });
     } else {
-      return res.status(400).json({ message: 'Invalid role' });
+      return res.status(400).json({ message: 'Invalid role specified' });
     }
 
     if (!account) {
@@ -105,7 +116,7 @@ export const loginUser = async (req, res) => {
 
     res.status(200).json({
       message: 'Login successful',
-      user: {
+      [role]: {
         id: account._id,
         name: account.name,
         email: account.email,

@@ -1,12 +1,13 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import "../styles/LostAnimal.css";
 
 const LostAnimal = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    location: "",
+    animalType: "",
+    lastSeenLocation: "",
     description: "",
+    reporterName: "",
+    reporterPhone: "",
     image: null,
   });
 
@@ -28,14 +29,16 @@ const LostAnimal = () => {
 
     try {
       const data = new FormData();
-      data.append("name", formData.name);
-      data.append("location", formData.location);
+      data.append("animalType", formData.animalType);
+      data.append("lastSeenLocation", formData.lastSeenLocation);
       data.append("description", formData.description);
+      data.append("reporterName", formData.reporterName);
+      data.append("reporterPhone", formData.reporterPhone);
       if (formData.image) {
         data.append("image", formData.image);
       }
 
-      const res = await fetch("/api/lost-animals", {
+      const res = await fetch("http://localhost:5000/api/lost-animals", {
         method: "POST",
         body: data,
       });
@@ -44,13 +47,15 @@ const LostAnimal = () => {
 
       if (res.ok) {
         alert("Lost animal report submitted successfully!");
-        // Reset form
         setFormData({
-          name: "",
-          location: "",
+          animalType: "",
+          lastSeenLocation: "",
           description: "",
+          reporterName: "",
+          reporterPhone: "",
           image: null,
         });
+        document.getElementById("imageUpload").value = "";
       } else {
         alert(result.message || "Submission failed");
       }
@@ -69,11 +74,11 @@ const LostAnimal = () => {
 
       <form onSubmit={handleSubmit} className="lost-animal-form">
         <label>
-          Animal Name:
+          Animal Type:
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="animalType"
+            value={formData.animalType}
             onChange={handleChange}
             required
           />
@@ -83,8 +88,8 @@ const LostAnimal = () => {
           Last Seen Location:
           <input
             type="text"
-            name="location"
-            value={formData.location}
+            name="lastSeenLocation"
+            value={formData.lastSeenLocation}
             onChange={handleChange}
             required
           />
@@ -101,8 +106,31 @@ const LostAnimal = () => {
         </label>
 
         <label>
+          Reporter Name:
+          <input
+            type="text"
+            name="reporterName"
+            value={formData.reporterName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          Reporter Phone:
+          <input
+            type="text"
+            name="reporterPhone"
+            value={formData.reporterPhone}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
           Upload Image:
           <input
+            id="imageUpload"
             type="file"
             accept="image/*"
             onChange={handleImageChange}
