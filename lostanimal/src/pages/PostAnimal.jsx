@@ -1,12 +1,11 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import "../styles/PostAnimal.css";
 
 const PostAnimal = () => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    breed: "",
+    animalType: "",
     location: "",
     description: "",
     image: null,
@@ -16,13 +15,14 @@ const PostAnimal = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // Handle input change
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -31,29 +31,38 @@ const PostAnimal = () => {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, age, breed, location, description, image } = formData;
+    const { name, age, animalType, location, description, image } = formData;
 
-    if (!name || !age || !breed || !location || !description || !image) {
+    if (!token || !userId) {
+      alert("User not authenticated. Please log in.");
+      return;
+    }
+
+    if (!name || !age || !animalType || !location || !description || !image) {
       alert("Please fill in all fields and upload an image.");
       return;
     }
 
     try {
       setSubmitting(true);
+
       const data = new FormData();
       data.append("name", name);
       data.append("age", age);
-      data.append("breed", breed);
+      data.append("animalType", animalType);
       data.append("location", location);
       data.append("description", description);
       data.append("image", image);
+      data.append("createdBy", userId);
 
-      const res = await fetch("/api/animals", {
+      const res = await fetch("http://localhost:5000/api/animals", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: data,
       });
 
@@ -64,7 +73,7 @@ const PostAnimal = () => {
         setFormData({
           name: "",
           age: "",
-          breed: "",
+          animalType: "",
           location: "",
           description: "",
           image: null,
@@ -75,7 +84,7 @@ const PostAnimal = () => {
         alert(result.message || "Failed to post animal.");
       }
     } catch (error) {
-      console.error("Post error:", error);
+      console.error("❌ Post error:", error);
       alert("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
@@ -107,9 +116,9 @@ const PostAnimal = () => {
         />
         <input
           type="text"
-          name="breed"
-          placeholder="Breed"
-          value={formData.breed}
+          name="animalType"
+          placeholder="Animal Type (e.g., Dog, Cat)"
+          value={formData.animalType}
           onChange={handleChange}
           required
         />

@@ -1,20 +1,16 @@
 // routes/authRoutes.js
 import express from 'express';
 import {
-  loginUser,
   signupUser,
-  registerVolunteer
+  registerVolunteer,
+  loginUser, // ✅ Correct function name
 } from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// ✅ Route for user signup
-router.post('/signup', signupUser);
-
-// ✅ Route for volunteer registration
+router.post('/register/user', signupUser);
 router.post('/register/volunteer', registerVolunteer);
-
-// ✅ Route for login (user or volunteer)
 router.post('/login', loginUser);
 
 export default router;

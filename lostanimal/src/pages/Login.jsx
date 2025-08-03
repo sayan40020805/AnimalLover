@@ -5,32 +5,49 @@ import "../styles/Login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("user"); // user or volunteer
+  const [userType, setUserType] = useState("user");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role: userType }), // ✅ include role
+        body: JSON.stringify({ email, password, role: userType }),
       });
 
       const data = await res.json();
+      console.log("🔁 Login Response:", data);
 
       if (res.ok) {
+        const userData = data.user || data.volunteer;
+
+        if (!userData || (!userData._id && !userData.id)) {
+          throw new Error("User data missing ID.");
+        }
+
+        // ✅ Save all necessary login data
+        const userId = userData._id || userData.id;
+
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user || data.volunteer));
+        localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("userType", userType);
+        localStorage.setItem("userId", userId); // ✅ Required for reporting
+
+        alert("Login successful!");
         navigate("/");
       } else {
         alert(data.message || "Login failed. Please check your credentials.");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("❌ Login error:", error);
       alert("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,8 +95,8 @@ const Login = () => {
           </select>
         </div>
 
-        <button type="submit" className="login-button">
-          Login
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
 

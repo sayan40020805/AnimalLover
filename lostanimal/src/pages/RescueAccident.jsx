@@ -1,13 +1,18 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import "../styles/RescueAccident.css";
 
 const RescueAccident = () => {
   const [formData, setFormData] = useState({
+    animalType: "",
     location: "",
     description: "",
+    reporterName: "",
+    reporterPhone: "",
     image: null,
   });
+
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,33 +27,44 @@ const RescueAccident = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("location", formData.location);
-    data.append("description", formData.description);
-    if (formData.image) {
-      data.append("image", formData.image);
+    if (!token || !userId) {
+      alert("User not authenticated. Please log in.");
+      return;
     }
 
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) data.append(key, value);
+    });
+    data.append("reportedBy", userId); // required in backend
+
     try {
-      const res = await fetch("http://localhost:5000/api/rescue-accident", {
+      const res = await fetch("http://localhost:5000/api/rescue/accident", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: data,
       });
 
       const result = await res.json();
 
       if (res.ok) {
-        alert("Rescue report submitted successfully!");
+        alert("Accident report submitted successfully!");
         setFormData({
+          animalType: "",
           location: "",
           description: "",
+          reporterName: "",
+          reporterPhone: "",
           image: null,
         });
+        document.getElementById("imageInput").value = "";
       } else {
         alert(result.message || "Failed to submit report");
       }
     } catch (err) {
-      console.error("Error submitting rescue report:", err);
+      console.error("Error submitting accident report:", err);
       alert("Something went wrong. Please try again.");
     }
   };
@@ -59,6 +75,17 @@ const RescueAccident = () => {
       <p>If you see an injured animal, please provide details so we can help.</p>
 
       <form onSubmit={handleSubmit} className="rescue-accident-form">
+        <label>
+          Animal Type:
+          <input
+            type="text"
+            name="animalType"
+            value={formData.animalType}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
         <label>
           Location:
           <input
@@ -81,8 +108,35 @@ const RescueAccident = () => {
         </label>
 
         <label>
+          Your Name:
+          <input
+            type="text"
+            name="reporterName"
+            value={formData.reporterName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          Your Phone:
+          <input
+            type="text"
+            name="reporterPhone"
+            value={formData.reporterPhone}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
           Upload Image:
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input
+            id="imageInput"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </label>
 
         <button type="submit" className="submit-button">

@@ -10,26 +10,32 @@ const animalSchema = new mongoose.Schema(
     age: {
       type: String,
       required: true,
+      trim: true,
     },
-    type: {
+    animalType: {
       type: String,
       required: true, // e.g., Dog, Cat, Bird
+      trim: true,
     },
     description: {
       type: String,
       required: true,
+      trim: true,
     },
     image: {
-      type: String, // URL or base64 or image filename if using multer
-      required: false,
+      type: String,
+      default: '', // Optional field; defaults to empty string if not provided
+      trim: true,
     },
     location: {
       type: String,
       required: true,
+      trim: true,
     },
     healthStatus: {
       type: String,
-      default: 'Healthy', // e.g., Healthy, Sick, Injured
+      enum: ['Healthy', 'Sick', 'Injured'],
+      default: 'Healthy',
     },
     isAdopted: {
       type: Boolean,
@@ -37,7 +43,7 @@ const animalSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // or 'Volunteer' if separate model
+      ref: 'User', // or 'Volunteer' if needed
       required: true,
     },
   },

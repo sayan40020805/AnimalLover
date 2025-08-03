@@ -12,6 +12,8 @@ import AnimalInfo from "./pages/AnimalInfo";
 import ViewAnimals from "./pages/ViewAnimals";
 import PostAnimals from "./pages/PostAnimal";
 import Login from "./pages/Login";
+import Donate from "./pages/Donate"
+
 import UserSignup from "./pages/UserSignup";
 import VolunteerSignup from "./pages/VolunteerSignup";
 import SignupSelection from "./pages/SignupSelection";
@@ -29,6 +31,7 @@ function App() {
           <Route path="user-signup" element={<UserSignup />} />
           <Route path="volunteer-signup" element={<VolunteerSignup />} />
           <Route path="signup" element={<SignupSelection />} />
+          <Route path="/donate" element={<Donate />} />
           <Route path="lost-animal" element={<LostAnimal />} />
           <Route path="rescue-dead" element={<RescueDead />} />
           <Route path="rescue-accident" element={<RescueAccident />} />

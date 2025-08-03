@@ -168,6 +168,43 @@ body {
   color: white;
 }
 
+/* =================== Donate Section =================== */
+.donate-section {
+  background: #fff0e6;
+  padding: 40px 30px;
+  border-radius: 12px;
+  max-width: 700px;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 12px rgba(255, 153, 102, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.donate-title {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #d14f00;
+}
+
+.donate-subtitle {
+  color: #804000;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.donate-button {
+  background-color: #ff6b00;
+  color: white;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.donate-button:hover {
+  background-color: #e65c00;
+}
+
 /* =================== Footer =================== */
 .home-footer {
   background: linear-gradient(to right, #e0f2f1, #f2f2f2);
@@ -192,23 +229,27 @@ body.dark-mode .home-container {
 
 body.dark-mode .home-title,
 body.dark-mode .action-title,
-body.dark-mode .adopt-title {
+body.dark-mode .adopt-title,
+body.dark-mode .donate-title {
   color: #f1f1f1;
 }
 
 body.dark-mode .home-subtitle,
-body.dark-mode .adopt-subtitle {
+body.dark-mode .adopt-subtitle,
+body.dark-mode .donate-subtitle {
   color: #cccccc;
 }
 
 body.dark-mode .home-button,
-body.dark-mode .adopt-link {
+body.dark-mode .adopt-link,
+body.dark-mode .donate-button {
   background-color: #2637d9;
   color: #ffffff;
 }
 
 body.dark-mode .home-button:hover,
-body.dark-mode .adopt-link:hover {
+body.dark-mode .adopt-link:hover,
+body.dark-mode .donate-button:hover {
   background-color: #4761f6;
 }
 
@@ -216,7 +257,8 @@ body.dark-mode .top-navigation {
   background-color: #1e1e1e;
 }
 
-body.dark-mode .adopt-section {
+body.dark-mode .adopt-section,
+body.dark-mode .donate-section {
   background-color: #2a2a2a;
   box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
 }

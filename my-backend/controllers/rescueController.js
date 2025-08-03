@@ -1,5 +1,3 @@
-// controllers/rescueController.js
-
 import RescueAccident from '../models/RescueAccident.js';
 import RescueDead from '../models/RescueDead.js';
 import LostAnimal from '../models/LostAnimal.js';
@@ -7,14 +5,32 @@ import LostAnimal from '../models/LostAnimal.js';
 // ------------------ ACCIDENT REPORT ------------------
 export const reportAccident = async (req, res) => {
   try {
-    const { location, description, reporterName, contact } = req.body;
-
-    const newReport = new RescueAccident({
+    const {
+      animalType,
       location,
       description,
       reporterName,
-      contact,
+      reporterPhone,
+    } = req.body;
+
+    if (
+      !animalType ||
+      !location ||
+      !description ||
+      !reporterName ||
+      !reporterPhone
+    ) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const newReport = new RescueAccident({
+      animalType,
+      location,
+      description,
+      reporterName,
+      reporterPhone,
       image: req.file ? req.file.path : null,
+      reportedBy: req.user.id, // ✅ User ID from middleware
     });
 
     await newReport.save();
@@ -25,42 +41,42 @@ export const reportAccident = async (req, res) => {
   }
 };
 
-export const getAllAccidents = async (req, res) => {
-  try {
-    const reports = await RescueAccident.find().sort({ createdAt: -1 });
-    res.status(200).json(reports);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching accident reports' });
-  }
-};
-
 // ------------------ DEAD ANIMAL REPORT ------------------
 export const reportDeadAnimal = async (req, res) => {
   try {
-    const { location, reporterName, contact, description } = req.body;
+    const {
+      animalType,
+      location,
+      description,
+      reporterName,
+      reporterPhone,
+    } = req.body;
+
+    if (
+      !animalType ||
+      !location ||
+      !description ||
+      !reporterName ||
+      !reporterPhone
+    ) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
 
     const report = new RescueDead({
+      animalType,
       location,
-      reporterName,
-      contact,
       description,
+      reporterName,
+      reporterPhone,
       image: req.file ? req.file.path : null,
+      reportedBy: req.user.id, // ✅ User ID from middleware
     });
 
     await report.save();
-    res.status(201).json({ message: 'Dead animal reported', data: report });
+    res.status(201).json({ message: 'Dead animal reported successfully', data: report });
   } catch (error) {
     console.error('❌ Dead Animal Report Error:', error);
     res.status(500).json({ message: 'Server error while reporting dead animal' });
-  }
-};
-
-export const getAllDeadAnimals = async (req, res) => {
-  try {
-    const reports = await RescueDead.find().sort({ createdAt: -1 });
-    res.status(200).json(reports);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching dead animal reports' });
   }
 };
 
@@ -68,6 +84,10 @@ export const getAllDeadAnimals = async (req, res) => {
 export const reportLostAnimal = async (req, res) => {
   try {
     const { animalType, location, description, contactInfo } = req.body;
+
+    if (!animalType || !location || !description || !contactInfo) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
 
     const newLost = new LostAnimal({
       animalType,
@@ -85,6 +105,25 @@ export const reportLostAnimal = async (req, res) => {
   }
 };
 
+// ------------------ GET ALL REPORTS ------------------
+export const getAllAccidents = async (req, res) => {
+  try {
+    const reports = await RescueAccident.find().sort({ createdAt: -1 });
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching accident reports' });
+  }
+};
+
+export const getAllDeadAnimals = async (req, res) => {
+  try {
+    const reports = await RescueDead.find().sort({ createdAt: -1 });
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching dead animal reports' });
+  }
+};
+
 export const getAllLostAnimals = async (req, res) => {
   try {
     const lostAnimals = await LostAnimal.find().sort({ createdAt: -1 });
@@ -93,4 +132,3 @@ export const getAllLostAnimals = async (req, res) => {
     res.status(500).json({ message: 'Error fetching lost animals' });
   }
 };
-

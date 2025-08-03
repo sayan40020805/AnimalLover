@@ -5,26 +5,31 @@ const rescueDeadSchema = new mongoose.Schema(
     animalType: {
       type: String,
       required: true,
-      trim: true, // Example: Dog, Cow, Bird
+      trim: true, // e.g., Dog, Cow, Bird
     },
     description: {
       type: String,
       required: true,
+      trim: true,
     },
     location: {
       type: String,
       required: true,
+      trim: true,
     },
     image: {
-      type: String, // Can be a filename or cloud storage URL
+      type: String, // File path or cloud storage URL
+      default: '',
     },
     reporterName: {
       type: String,
       required: true,
+      trim: true,
     },
     reporterPhone: {
       type: String,
       required: true,
+      trim: true,
     },
     status: {
       type: String,

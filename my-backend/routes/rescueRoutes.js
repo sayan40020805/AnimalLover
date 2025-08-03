@@ -8,10 +8,11 @@ import {
   reportLostAnimal,
   getAllLostAnimals,
 } from '../controllers/rescueController.js';
+import { protect } from '../middleware/authMiddleware.js'; // ✅ auth middleware
 
 const router = express.Router();
 
-// Set up Multer for file upload
+// ✅ Multer setup
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
@@ -23,16 +24,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// LOST animal
+// ✅ LOST animal (no auth needed)
 router.post('/lost', upload.single('image'), reportLostAnimal);
 router.get('/lost', getAllLostAnimals);
 
-// ACCIDENT
-router.post('/accident', upload.single('image'), reportAccident);
+// ✅ ACCIDENT (now protected ✅)
+router.post('/accident', protect, upload.single('image'), reportAccident);
 router.get('/accident', getAllAccidents);
 
-// DEAD animal
-router.post('/dead', upload.single('image'), reportDeadAnimal);
+// ✅ DEAD animal (protected)
+router.post('/dead', protect, upload.single('image'), reportDeadAnimal);
 router.get('/dead', getAllDeadAnimals);
 
 export default router;

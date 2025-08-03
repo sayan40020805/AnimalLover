@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ViewAnimals.css";
 
@@ -38,9 +37,16 @@ const ViewAnimals = () => {
         <div className="animal-list">
           {animals.map((animal) => (
             <div key={animal._id} className="animal-card">
-              <img src={animal.imageUrl} alt={animal.name} />
+              <img
+                src={
+                  animal.image
+                    ? `http://localhost:5000${animal.image}`
+                    : "https://via.placeholder.com/200x200?text=No+Image"
+                }
+                alt={animal.name}
+              />
               <h3>{animal.name}</h3>
-              <p><strong>Breed:</strong> {animal.breed}</p>
+              <p><strong>Type:</strong> {animal.animalType}</p>
               <p><strong>Age:</strong> {animal.age}</p>
               <p><strong>Location:</strong> {animal.location}</p>
               <p>{animal.description}</p>

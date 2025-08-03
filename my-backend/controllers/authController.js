@@ -1,15 +1,10 @@
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
 
 // ✅ Helper: Generate JWT token
 const generateToken = (user, role) => {
-  return jwt.sign(
-    { id: user._id, role },
-    process.env.JWT_SECRET,
-    { expiresIn: '7d' }
-  );
+  return jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
 // ------------------ USER REGISTRATION ------------------
@@ -21,18 +16,16 @@ export const signupUser = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // ✅ No need to hash manually, model handles it
-    const newUser = await User.create({
-      name,
-      email,
-      phone,
-      password,
-    });
+    const newUser = await User.create({ name, email, phone, password });
 
     res.status(201).json({
       message: 'User registered successfully',
@@ -58,19 +51,16 @@ export const registerVolunteer = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
     const existingVolunteer = await Volunteer.findOne({ email });
     if (existingVolunteer) {
       return res.status(400).json({ message: 'Volunteer already exists' });
     }
 
-    // ✅ Let model handle password hashing
-    const newVolunteer = await Volunteer.create({
-      name,
-      email,
-      phone,
-      location,
-      password,
-    });
+    const newVolunteer = await Volunteer.create({ name, email, phone, location, password });
 
     res.status(201).json({
       message: 'Volunteer registered successfully',
@@ -78,6 +68,7 @@ export const registerVolunteer = async (req, res) => {
         id: newVolunteer._id,
         name: newVolunteer.name,
         email: newVolunteer.email,
+        location: newVolunteer.location,
       },
       token: generateToken(newVolunteer, 'volunteer'),
     });
@@ -106,10 +97,11 @@ export const loginUser = async (req, res) => {
     }
 
     if (!account) {
-      return res.status(404).json({ message: 'Account not found' });
+      return res.status(404).json({ message: `${role} not found` });
     }
 
-    const isMatch = await bcrypt.compare(password, account.password);
+    // ✅ Use model method to compare password securely
+    const isMatch = await account.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
@@ -120,6 +112,7 @@ export const loginUser = async (req, res) => {
         id: account._id,
         name: account.name,
         email: account.email,
+        ...(role === 'volunteer' && { location: account.location }),
       },
       token: generateToken(account, role),
     });

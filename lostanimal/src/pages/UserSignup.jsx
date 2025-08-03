@@ -6,7 +6,13 @@ import api from "../api/api"; // Axios instance
 import "../styles/Signup.css";
 
 const UserSignup = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "", phone: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,9 +22,7 @@ const UserSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // ✅ Hitting the correct backend route
-      const res = await api.post("/auth/signup", form);
-
+      const res = await api.post("/users/register/user", form);
       alert("User registered successfully! Please login.");
       navigate("/login");
     } catch (err) {
@@ -58,10 +62,11 @@ const UserSignup = () => {
         <input
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="Password (min 6 chars)"
           value={form.password}
           onChange={handleChange}
           required
+          minLength={6}
         />
         <button type="submit">Sign Up</button>
       </form>

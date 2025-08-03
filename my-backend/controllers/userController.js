@@ -1,26 +1,39 @@
+// controllers/userController.js
+
 import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+// ✅ Generate JWT token
 const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
+// ✅ User registration
 export const registerUser = async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: 'User already exists' });
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = await User.create({ name, email, phone, password: hashedPassword });
+    // Let model handle hashing in pre('save')
+    const newUser = await User.create({ name, email, phone, password });
     const token = generateToken(newUser._id, 'user');
 
     res.status(201).json({
       message: 'User registered successfully',
-      user: { id: newUser._id, name: newUser.name, email: newUser.email },
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
       token,
     });
   } catch (error) {
@@ -29,22 +42,22 @@ export const registerUser = async (req, res) => {
   }
 };
 
+// ✅ Volunteer registration
 export const registerVolunteer = async (req, res) => {
   try {
     const { name, email, phone, password, location } = req.body;
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
     const volunteerExists = await Volunteer.findOne({ email });
-    if (volunteerExists) return res.status(400).json({ message: 'Volunteer already exists' });
+    if (volunteerExists) {
+      return res.status(400).json({ message: 'Volunteer already exists' });
+    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newVolunteer = await Volunteer.create({
-      name,
-      email,
-      phone,
-      location,
-      password: hashedPassword,
-    });
-
+    // Let model handle hashing
+    const newVolunteer = await Volunteer.create({ name, email, phone, location, password });
     const token = generateToken(newVolunteer._id, 'volunteer');
 
     res.status(201).json({
@@ -63,6 +76,7 @@ export const registerVolunteer = async (req, res) => {
   }
 };
 
+// ✅ Login (user or volunteer)
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -73,17 +87,17 @@ export const login = async (req, res) => {
 
     const Model = role === 'user' ? User : Volunteer;
     const user = await Model.findOne({ email });
-
     if (!user) return res.status(404).json({ message: `${role} not found` });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+    // ✅ Correct way to compare hashed password
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
 
     const token = generateToken(user._id, role);
 
     res.status(200).json({
       message: 'Login successful',
-      user: {
+      [role]: {
         id: user._id,
         name: user.name,
         email: user.email,
@@ -97,6 +111,7 @@ export const login = async (req, res) => {
   }
 };
 
+// ✅ Get current user/volunteer
 export const getCurrentUser = async (req, res) => {
   try {
     const { id, role } = req.user;

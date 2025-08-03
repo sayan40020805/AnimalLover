@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 
@@ -69,6 +68,16 @@ const Home = () => {
         </p>
         <Link to="/view-animals" className="adopt-link home-button">
           View Animals for Adoption
+        </Link>
+      </section>
+
+      <section className="donate-section">
+        <h2 className="donate-title">Support Our Cause</h2>
+        <p className="donate-subtitle">
+          Help us continue rescuing, treating, and rehoming animals in need.
+        </p>
+        <Link to="/donate" className="donate-button home-button">
+          Donate Now 💖
         </Link>
       </section>
 

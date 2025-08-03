@@ -3,34 +3,45 @@ import "../styles/RescueDead.css";
 
 const RescueDead = () => {
   const [formData, setFormData] = useState({
+    animalType: "",
     location: "",
     description: "",
+    reporterName: "",
+    reporterPhone: "",
     image: null,
   });
 
+  const token = localStorage.getItem("token");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+    setFormData((prev) => ({ ...prev, image: file }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("location", formData.location);
-    data.append("description", formData.description);
-    if (formData.image) {
-      data.append("image", formData.image);
+    if (!token) {
+      alert("User not authenticated. Please log in.");
+      return;
     }
+
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) data.append(key, value);
+    });
 
     try {
       const res = await fetch("http://localhost:5000/api/rescue/dead", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ send token for protected route
+        },
         body: data,
       });
 
@@ -39,11 +50,13 @@ const RescueDead = () => {
       if (res.ok) {
         alert("Report for the deceased animal submitted successfully!");
         setFormData({
+          animalType: "",
           location: "",
           description: "",
+          reporterName: "",
+          reporterPhone: "",
           image: null,
         });
-        // Optional: reset file input visually
         document.getElementById("imageInput").value = "";
       } else {
         alert(result.message || "Failed to submit report");
@@ -60,6 +73,17 @@ const RescueDead = () => {
       <p>If you have spotted a deceased animal, please provide details below.</p>
 
       <form onSubmit={handleSubmit} className="rescue-dead-form">
+        <label>
+          Animal Type:
+          <input
+            type="text"
+            name="animalType"
+            value={formData.animalType}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
         <label>
           Location:
           <input
@@ -79,6 +103,28 @@ const RescueDead = () => {
             onChange={handleChange}
             required
           ></textarea>
+        </label>
+
+        <label>
+          Your Name:
+          <input
+            type="text"
+            name="reporterName"
+            value={formData.reporterName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          Your Phone:
+          <input
+            type="text"
+            name="reporterPhone"
+            value={formData.reporterPhone}
+            onChange={handleChange}
+            required
+          />
         </label>
 
         <label>
