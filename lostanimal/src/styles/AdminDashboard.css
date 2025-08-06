@@ -1,0 +1,95 @@
+/* AdminDashboard.css */
+
+.admin-dashboard-container {
+  max-width: 1100px;
+  margin: 100px auto 40px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-dashboard-container h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2637d9;
+}
+
+.pending-volunteers {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.volunteer-card {
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 20px;
+  border-left: 6px solid #2637d9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.volunteer-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.volunteer-card p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.button-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.approve-button,
+.reject-button {
+  padding: 10px 18px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.approve-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.approve-button:hover {
+  background-color: #218838;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reject-button:hover {
+  background-color: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .volunteer-card {
+    padding: 15px;
+  }
+
+  .approve-button,
+  .reject-button {
+    flex: 1;
+    padding: 10px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

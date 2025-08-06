@@ -1,11 +1,13 @@
 // src/components/Navbar.jsx
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Navber.css"; // ✅ Make sure the filename matches exactly
+import "../styles/Navber.css"; // ✅ Ensure the file name matches exactly
 
 const Navbar = () => {
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const isAdmin = user?.email === "admin2004@gmail.com";
 
     const handleLogout = () => {
         localStorage.clear();
@@ -22,6 +24,14 @@ const Navbar = () => {
                     <Link to="/about" className="nav-link">About</Link>
                 </li>
 
+                {/* Admin Dashboard Link */}
+                {isLoggedIn && isAdmin && (
+                    <li className="nav-item">
+                        <Link to="/admin" className="nav-link">Dashboard</Link>
+                    </li>
+                )}
+
+                {/* Auth Buttons */}
                 {!isLoggedIn ? (
                     <>
                         <li className="nav-item">

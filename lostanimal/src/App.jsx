@@ -1,5 +1,5 @@
 // src/App.jsx
-import React from 'react'; // ✅ Add this line
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 
@@ -12,8 +12,8 @@ import AnimalInfo from "./pages/AnimalInfo";
 import ViewAnimals from "./pages/ViewAnimals";
 import PostAnimals from "./pages/PostAnimal";
 import Login from "./pages/Login";
-import Donate from "./pages/Donate"
-
+import Donate from "./pages/Donate";
+import AdminDashboard from "./pages/AdminDashboard"; // ✅ single admin page
 import UserSignup from "./pages/UserSignup";
 import VolunteerSignup from "./pages/VolunteerSignup";
 import SignupSelection from "./pages/SignupSelection";
@@ -32,6 +32,7 @@ function App() {
           <Route path="volunteer-signup" element={<VolunteerSignup />} />
           <Route path="signup" element={<SignupSelection />} />
           <Route path="/donate" element={<Donate />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="lost-animal" element={<LostAnimal />} />
           <Route path="rescue-dead" element={<RescueDead />} />
           <Route path="rescue-accident" element={<RescueAccident />} />

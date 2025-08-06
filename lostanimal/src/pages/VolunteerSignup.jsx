@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api"; // ✅ use centralized axios instance
 import "../styles/Signup.css";
@@ -27,10 +26,11 @@ const VolunteerSignup = () => {
     setLoading(true);
 
     try {
-      const res = await api.post("/volunteers/signup", formData);
+      // ✅ Corrected API endpoint
+      const res = await api.post("/auth/register/volunteer", formData);
 
-      if (res.data.success) {
-        alert("Volunteer registered successfully!");
+      if (res.status === 201) {
+        alert("Volunteer registered successfully! Awaiting admin approval.");
         navigate("/login");
       } else {
         setError(res.data.message || "Something went wrong.");

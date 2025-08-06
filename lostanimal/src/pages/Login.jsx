@@ -30,16 +30,22 @@ const Login = () => {
           throw new Error("User data missing ID.");
         }
 
-        // ✅ Save all necessary login data
         const userId = userData._id || userData.id;
 
+        // ✅ Save login data
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("userType", userType);
-        localStorage.setItem("userId", userId); // ✅ Required for reporting
+        localStorage.setItem("userId", userId);
 
-        alert("Login successful!");
-        navigate("/");
+        // ✅ Admin check
+        if (email === "admin2004@gmail.com" && password === "sayan40028050") {
+          alert("Welcome Admin!");
+          navigate("/admin-dashboard");
+        } else {
+          alert("Login successful!");
+          navigate("/");
+        }
       } else {
         alert(data.message || "Login failed. Please check your credentials.");
       }
