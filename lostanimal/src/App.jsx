@@ -13,7 +13,8 @@ import ViewAnimals from "./pages/ViewAnimals";
 import PostAnimals from "./pages/PostAnimal";
 import Login from "./pages/Login";
 import Donate from "./pages/Donate";
-import AdminDashboard from "./pages/AdminDashboard"; // ✅ single admin page
+import AdminDashboard from "./pages/AdminDashboard";
+import VolunteerDashboard from "./pages/VolunteerDashboard"; // ✅ NEW
 import UserSignup from "./pages/UserSignup";
 import VolunteerSignup from "./pages/VolunteerSignup";
 import SignupSelection from "./pages/SignupSelection";
@@ -31,8 +32,9 @@ function App() {
           <Route path="user-signup" element={<UserSignup />} />
           <Route path="volunteer-signup" element={<VolunteerSignup />} />
           <Route path="signup" element={<SignupSelection />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="donate" element={<Donate />} />
+          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="volunteer" element={<VolunteerDashboard />} /> {/* ✅ NEW */}
           <Route path="lost-animal" element={<LostAnimal />} />
           <Route path="rescue-dead" element={<RescueDead />} />
           <Route path="rescue-accident" element={<RescueAccident />} />
@@ -40,7 +42,7 @@ function App() {
           <Route path="view-animals" element={<ViewAnimals />} />
           <Route path="post-animal" element={<PostAnimals />} />
 
-          {/* 404 Fallback Route */}
+          {/* 404 Fallback */}
           <Route
             path="*"
             element={

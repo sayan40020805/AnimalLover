@@ -1,4 +1,4 @@
-// middleware/authMiddleware.js
+// middleware/protect.js
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
@@ -9,28 +9,23 @@ const protect = async (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
+
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      const Model = decoded.role === 'volunteer' ? Volunteer : User;
-      const user = await Model.findById(decoded.id).select('-password');
+      // 🔍 Search both User and Volunteer collections
+      const user = await User.findById(decoded.id) || await Volunteer.findById(decoded.id);
 
       if (!user) {
         return res.status(401).json({ message: 'User not found' });
       }
 
-      req.user = {
-        id: user._id,
-        role: decoded.role,
-        name: user.name,
-        email: user.email,
-      };
-
+      req.user = user;
       next();
-    } catch (err) {
-      return res.status(401).json({ message: 'Not authorized, token failed' });
+    } catch (error) {
+      return res.status(401).json({ message: 'Token failed' });
     }
   } else {
-    return res.status(401).json({ message: 'Not authorized, no token' });
+    return res.status(401).json({ message: 'No token, authorization denied' });
   }
 };
 

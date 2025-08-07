@@ -7,7 +7,11 @@ const Navbar = () => {
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    const isAdmin = user?.email === "admin2004@gmail.com";
+    const userEmail = user?.email;
+
+    const isAdmin = userEmail === "admin2004@gmail.com";
+    const isVolunteer = user?.role === "volunteer"; // Assuming you store role
+    const isUser = !isAdmin && !isVolunteer;
 
     const handleLogout = () => {
         localStorage.clear();
@@ -24,10 +28,24 @@ const Navbar = () => {
                     <Link to="/about" className="nav-link">About</Link>
                 </li>
 
-                {/* Admin Dashboard Link */}
+                {/* Admin Dashboard */}
                 {isLoggedIn && isAdmin && (
                     <li className="nav-item">
-                        <Link to="/admin" className="nav-link">Dashboard</Link>
+                        <Link to="/admin" className="nav-link">Admin Dashboard</Link>
+                    </li>
+                )}
+
+                {/* Volunteer Dashboard */}
+                {isLoggedIn && isVolunteer && (
+                    <li className="nav-item">
+                        <Link to="/volunteer" className="nav-link">Volunteer Dashboard</Link>
+                    </li>
+                )}
+
+                {/* User Dashboard */}
+                {isLoggedIn && isUser && (
+                    <li className="nav-item">
+                        <Link to="/user" className="nav-link">User Dashboard</Link>
                     </li>
                 )}
 
@@ -57,4 +75,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Navbar; 

@@ -14,9 +14,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:5000/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // Important if using cookies
         body: JSON.stringify({ email, password, role: userType }),
       });
 
@@ -24,7 +25,7 @@ const Login = () => {
       console.log("🔁 Login Response:", data);
 
       if (res.ok) {
-        const userData = data.user || data.volunteer;
+        const userData = data.user || data.volunteer || data.admin;
 
         if (!userData || (!userData._id && !userData.id)) {
           throw new Error("User data missing ID.");
@@ -32,19 +33,30 @@ const Login = () => {
 
         const userId = userData._id || userData.id;
 
-        // ✅ Save login data
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("userType", userType);
         localStorage.setItem("userId", userId);
 
-        // ✅ Admin check
-        if (email === "admin2004@gmail.com" && password === "sayan40028050") {
+        // ✅ Admin login redirect
+        if (userType === "admin") {
           alert("Welcome Admin!");
-          navigate("/admin-dashboard");
+          return navigate("/admin-dashboard");
+        }
+
+        // ✅ Volunteer approval check
+        if (userType === "volunteer" && userData.isApproved === false) {
+          alert("Your account is not approved yet. Please wait for admin approval.");
+          return;
+        }
+
+        alert("Login successful!");
+
+        // 🎯 Redirect based on role
+        if (userType === "volunteer") {
+          navigate("/volunteer-dashboard");
         } else {
-          alert("Login successful!");
-          navigate("/");
+          navigate("/"); // user
         }
       } else {
         alert(data.message || "Login failed. Please check your credentials.");
@@ -98,6 +110,7 @@ const Login = () => {
           >
             <option value="user">User</option>
             <option value="volunteer">Volunteer</option>
+            <option value="admin">Admin</option>
           </select>
         </div>
 
