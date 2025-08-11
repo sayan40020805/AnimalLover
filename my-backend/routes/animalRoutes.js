@@ -5,7 +5,7 @@ import {
   getAnimals,
   deleteAnimal,
 } from '../controllers/animalController.js';
-import { protect } from '../middleware/authMiddleware.js'; // Optional, use if securing routes
+import protect from '../middleware/authMiddleware.js'; // Use default import for protect
 
 const router = express.Router();
 
@@ -22,14 +22,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ✅ POST a new animal (with image)
-// Add 'protect' here if user must be logged in to post
-router.post('/', upload.single('image'), postAnimal); // 👈 add 'protect,' before 'upload' if needed
+// If you want only logged-in users to post, use: protect, upload.single('image'), postAnimal
+router.post('/', upload.single('image'), postAnimal);
 
 // ✅ GET all animals (open to all)
 router.get('/', getAnimals);
 
 // ✅ DELETE an animal by ID
-// You can protect this with 'protect' and add admin-only logic if needed
-router.delete('/:id', deleteAnimal); // 👈 add 'protect,' before if needed
+// If you want only logged-in users/admins to delete, use: protect, deleteAnimal
+router.delete('/:id', deleteAnimal);
 
 export default router;

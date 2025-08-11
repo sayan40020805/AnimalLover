@@ -1,4 +1,6 @@
+// src/pages/PostAnimal.jsx
 import React, { useState } from "react";
+import api from "../api/api"; // ✅ Use your central axios instance
 import "../styles/PostAnimal.css";
 
 const PostAnimal = () => {
@@ -31,17 +33,27 @@ const PostAnimal = () => {
     }
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      age: "",
+      animalType: "",
+      location: "",
+      description: "",
+      image: null,
+    });
+    setPreview(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, age, animalType, location, description, image } = formData;
-
     if (!token || !userId) {
-      alert("User not authenticated. Please log in.");
+      alert("Please log in before posting an animal.");
       return;
     }
 
-    if (!name || !age || !animalType || !location || !description || !image) {
+    if (Object.values(formData).some((field) => !field)) {
       alert("Please fill in all fields and upload an image.");
       return;
     }
@@ -50,42 +62,28 @@ const PostAnimal = () => {
       setSubmitting(true);
 
       const data = new FormData();
-      data.append("name", name);
-      data.append("age", age);
-      data.append("animalType", animalType);
-      data.append("location", location);
-      data.append("description", description);
-      data.append("image", image);
+      Object.keys(formData).forEach((key) => {
+        if (formData[key]) data.append(key, formData[key]);
+      });
       data.append("createdBy", userId);
 
-      const res = await fetch("http://localhost:5000/api/animals", {
-        method: "POST",
+      const res = await api.post("/animals", data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
-        body: data,
       });
 
-      const result = await res.json();
-
-      if (res.ok) {
-        setSuccessMessage("Animal posted for adoption successfully!");
-        setFormData({
-          name: "",
-          age: "",
-          animalType: "",
-          location: "",
-          description: "",
-          image: null,
-        });
-        setPreview(null);
+      if (res.status === 201 || res.status === 200) {
+        setSuccessMessage("✅ Animal posted for adoption successfully!");
+        resetForm();
         setTimeout(() => setSuccessMessage(""), 3000);
       } else {
-        alert(result.message || "Failed to post animal.");
+        alert(res.data.message || "Failed to post animal.");
       }
     } catch (error) {
-      console.error("❌ Post error:", error);
-      alert("Something went wrong. Please try again.");
+      console.error("❌ Post Error:", error);
+      alert(error.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -109,7 +107,7 @@ const PostAnimal = () => {
         <input
           type="text"
           name="age"
-          placeholder="Age (e.g. 2 years)"
+          placeholder="Age (e.g., 2 years)"
           value={formData.age}
           onChange={handleChange}
           required
@@ -148,9 +146,7 @@ const PostAnimal = () => {
           />
         </label>
 
-        {preview && (
-          <img src={preview} alt="Preview" className="preview-image" />
-        )}
+        {preview && <img src={preview} alt="Preview" className="preview-image" />}
 
         <button type="submit" className="submit-button" disabled={submitting}>
           {submitting ? "Posting..." : "Post for Adoption"}

@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { reportLostAnimal } from '../controllers/lostAnimalController.js';
+import { reportLostAnimal, getLostAnimals } from '../controllers/lostAnimalController.js';
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post('/', upload.single('image'), reportLostAnimal);
+
+// GET all lost animal reports (supports ?reportedBy=...)
+router.get('/', getLostAnimals);
 
 export default router;

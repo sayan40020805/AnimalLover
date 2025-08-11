@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import api from "../api/api";
 import "../styles/UserDashboard.css";
 
 const UserDashboard = () => {
@@ -7,52 +6,79 @@ const UserDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const fetchUserReports = async () => {
-        try {
-            const token = localStorage.getItem("token");
-
-            const res = await api.get("/reports/my-reports", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            setReports(res.data.reports || []);
-        } catch (err) {
-            console.error("Error fetching user reports:", err);
-            setError("Failed to load your reports.");
-        } finally {
-            setLoading(false);
-        }
-    };
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        fetchUserReports();
-    }, []);
+        if (!userId || !token) {
+            setError("You must be logged in to view your reports.");
+            setLoading(false);
+            return;
+        }
+
+        const fetchReports = async () => {
+            try {
+                const res = await fetch(
+                    `http://localhost:5000/api/lost-animals?reportedBy=${userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.message || "Failed to fetch reports");
+                }
+
+                setReports(data.lostAnimals || []);
+            } catch (err) {
+                setError(err.message || "Error fetching reports");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchReports();
+    }, []); // runs once on mount
 
     return (
-        <div className="user-dashboard">
-            <h2>Your Submitted Reports</h2>
+        <div className="user-dashboard-container">
+            <h2>Your Lost Animal Reports</h2>
 
-            {loading ? (
-                <p>Loading...</p>
-            ) : error ? (
-                <p style={{ color: "red" }}>{error}</p>
-            ) : reports.length === 0 ? (
-                <p>No reports submitted yet.</p>
-            ) : (
-                <ul className="report-list">
+            {loading && <p className="loading">Loading...</p>}
+
+            {error && <p className="error">{error}</p>}
+
+            {!loading && !error && reports.length === 0 && (
+                <p className="no-reports">No reports found.</p>
+            )}
+
+            {!loading && !error && reports.length > 0 && (
+                <div className="reports-list">
                     {reports.map((report) => (
-                        <li key={report._id} className="report-item">
-                            <strong>Type:</strong> {report.type} <br />
-                            <strong>Description:</strong> {report.description} <br />
-                            <strong>Location:</strong> {report.location} <br />
-                            <strong>Status:</strong> {report.status || "Pending"} <br />
-                            <strong>Submitted:</strong>{" "}
-                            {new Date(report.createdAt).toLocaleString()}
-                        </li>
+                        <div key={report._id} className="report-card">
+                            <h3>{report.animalType}</h3>
+                            <p><strong>Last Seen:</strong> {report.lastSeenLocation}</p>
+                            <p><strong>Description:</strong> {report.description}</p>
+                            <p><strong>Status:</strong> {report.status}</p>
+                            {report.image && (
+                                <img
+                                    src={
+                                        report.image.startsWith("/")
+                                            ? `http://localhost:5000${report.image}`
+                                            : report.image
+                                    }
+                                    alt="Lost Animal"
+                                    className="report-image"
+                                />
+                            )}
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );

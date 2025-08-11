@@ -8,7 +8,7 @@ import {
   reportLostAnimal,
   getAllLostAnimals,
 } from '../controllers/rescueController.js';
-import { protect } from '../middleware/authMiddleware.js'; // ✅ auth middleware
+import protect from '../middleware/authMiddleware.js'; // ✅ auth middleware
 
 const router = express.Router();
 
