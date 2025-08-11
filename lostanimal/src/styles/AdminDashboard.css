@@ -77,6 +77,84 @@
   background-color: #c82333;
 }
 
+/* New Styles for Admin Dashboard UI Theme */
+.admin-dashboard {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 32px;
+  background: #111;
+  border-radius: 16px;
+  box-shadow: 0 0 32px 8px #00b4d8, 0 2px 8px #000 inset;
+  color: #fff;
+}
+
+.admin-dashboard h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #00b4d8;
+  text-shadow: 0 0 12px #00b4d8, 0 2px 4px #000;
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.volunteer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.volunteer-item {
+  background: #222;
+  border-radius: 10px;
+  box-shadow: 0 0 16px 4px #00b4d8, 0 2px 8px #000 inset;
+  margin-bottom: 18px;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.volunteer-item strong {
+  color: #00b4d8;
+  text-shadow: 0 0 8px #00b4d8;
+}
+
+.volunteer-item button {
+  background: #00b4d8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 0 8px #00b4d8, 0 2px 4px #000 inset;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.volunteer-item button:hover {
+  background: #0096c7;
+  box-shadow: 0 0 16px #00b4d8, 0 2px 8px #000 inset;
+}
+
+.loading,
+.error,
+.no-volunteers {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 18px;
+}
+
+.error {
+  color: #e63946;
+  text-shadow: none;
+}
+
+.no-volunteers {
+  color: #00b4d8;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .volunteer-card {

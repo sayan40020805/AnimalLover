@@ -5,7 +5,7 @@ import {
 } from "../controllers/volunteerController.js";
 
 import protect from "../middleware/authMiddleware.js";
-import isAdmin from "../middleware/isAdmin.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 
 const router = express.Router();
 

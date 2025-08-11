@@ -8,6 +8,10 @@ import connectDB from './config/db.js';
 
 import userRoutes from './routes/userRoutes.js';
 import volunteerRoutes from './routes/volunteerRoutes.js';
+import lostAnimalRoutes from './routes/lostAnimalRoutes.js';
+import rescueRoutes from './routes/rescueRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -33,6 +37,10 @@ app.use(
 // ✅ Routes
 app.use('/api/users', userRoutes);
 app.use('/api/volunteers', volunteerRoutes);
+app.use('/api/lost-animals', lostAnimalRoutes);
+app.use('/api/rescue', rescueRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
 
 // ✅ Root
 app.get('/', (req, res) => {

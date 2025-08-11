@@ -1,17 +1,16 @@
 // src/components/Navbar.jsx
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Navber.css"; // ✅ Ensure the file name matches exactly
+import "../styles/Navbar.css";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-    const userEmail = user?.email;
 
-    const isAdmin = userEmail === "admin2004@gmail.com";
-    const isVolunteer = user?.role === "volunteer"; // Assuming you store role
-    const isUser = !isAdmin && !isVolunteer;
+    const isAdmin = user?.role === "admin";
+    const isVolunteer = user?.role === "volunteer";
+    const isUser = user?.role === "user";
 
     const handleLogout = () => {
         localStorage.clear();
@@ -45,7 +44,7 @@ const Navbar = () => {
                 {/* User Dashboard */}
                 {isLoggedIn && isUser && (
                     <li className="nav-item">
-                        <Link to="/user" className="nav-link">User Dashboard</Link>
+                        <Link to="/user-dashboard" className="nav-link">User Dashboard</Link>
                     </li>
                 )}
 
@@ -75,4 +74,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar; 
+export default Navbar;

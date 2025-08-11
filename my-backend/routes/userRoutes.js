@@ -1,8 +1,7 @@
 // routes/userRoutes.js
 import express from 'express';
 import {
-  registerUser,
-  registerVolunteer,
+  register,
   login,
   getCurrentUser,
 } from '../controllers/userController.js';
@@ -10,8 +9,8 @@ import protect from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/register/user', registerUser);
-router.post('/register/volunteer', registerVolunteer);
+// Unified registration endpoint
+router.post('/register', register);
 router.post('/login', login);
 router.get('/me', protect, getCurrentUser);
 

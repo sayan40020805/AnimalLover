@@ -1,30 +1,47 @@
-// backend/controllers/adminController.js
-import Volunteer from "../models/Volunteer.js";
+import Admin from '../models/Admin.js';
+import jwt from 'jsonwebtoken';
 
-// GET /api/admin/pending-volunteers
-export const getPendingVolunteers = async (req, res) => {
-  try {
-    const volunteers = await Volunteer.find({ isApproved: false });
-    res.status(200).json({ success: true, volunteers });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error." });
-  }
+// Generate JWT
+const generateToken = (id, role) => {
+  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-// PUT /api/admin/approve/:id
-export const approveVolunteer = async (req, res) => {
-  try {
-    const volunteer = await Volunteer.findById(req.params.id);
+// Admin Register
+export const registerAdmin = async (req, res) => {
+  const { name, email, password } = req.body;
 
-    if (!volunteer) {
-      return res.status(404).json({ success: false, message: "Volunteer not found" });
-    }
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
 
-    volunteer.isApproved = true;
-    await volunteer.save();
+  const adminExists = await Admin.findOne({ email });
+  if (adminExists) {
+    return res.status(400).json({ message: 'Admin already exists' });
+  }
 
-    res.status(200).json({ success: true, message: "Volunteer approved." });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error." });
+  const admin = await Admin.create({ name, email, password });
+
+  res.status(201).json({
+    _id: admin._id,
+    name: admin.name,
+    email: admin.email,
+    token: generateToken(admin._id, 'admin'),
+  });
+};
+
+// Admin Login
+export const loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+
+  const admin = await Admin.findOne({ email });
+  if (admin && (await admin.matchPassword(password))) {
+    res.json({
+      _id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      token: generateToken(admin._id, 'admin'),
+    });
+  } else {
+    res.status(401).json({ message: 'Invalid email or password' });
   }
 };

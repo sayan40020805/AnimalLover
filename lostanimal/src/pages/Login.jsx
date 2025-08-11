@@ -1,11 +1,13 @@
+// src/pages/Login.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../api/api"; // ✅ centralized axios instance
 import "../styles/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("user");
+  const [role, setRole] = useState("user");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -14,56 +16,41 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // Important if using cookies
-        body: JSON.stringify({ email, password, role: userType }),
-      });
+      // ✅ Adjust endpoint to your backend’s login route
+      const res = await api.post("/users/login", { email, password, role });
 
-      const data = await res.json();
-      console.log("🔁 Login Response:", data);
+      const { token, user } = res.data;
 
-      if (res.ok) {
-        const userData = data.user || data.volunteer || data.admin;
+      if (!user || !user._id) {
+        throw new Error("Invalid user data received from server.");
+      }
 
-        if (!userData || (!userData._id && !userData.id)) {
-          throw new Error("User data missing ID.");
-        }
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("role", user.role);
+      localStorage.setItem("userId", user._id);
 
-        const userId = userData._id || userData.id;
+      if (user.role === "admin") {
+        alert("Welcome Admin!");
+        return navigate("/admin");
+      }
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("userType", userType);
-        localStorage.setItem("userId", userId);
+      if (user.role === "volunteer" && !user.isApproved) {
+        alert("Your account is not approved yet. Please wait for admin approval.");
+        return;
+      }
 
-        // ✅ Admin login redirect
-        if (userType === "admin") {
-          alert("Welcome Admin!");
-          return navigate("/admin-dashboard");
-        }
-
-        // ✅ Volunteer approval check
-        if (userType === "volunteer" && userData.isApproved === false) {
-          alert("Your account is not approved yet. Please wait for admin approval.");
-          return;
-        }
-
-        alert("Login successful!");
-
-        // 🎯 Redirect based on role
-        if (userType === "volunteer") {
-          navigate("/volunteer-dashboard");
-        } else {
-          navigate("/"); // user
-        }
+      alert("Login successful!");
+      if (user.role === "volunteer") {
+        navigate("/volunteer");
+      } else if (user.role === "user") {
+        navigate("/user-dashboard");
       } else {
-        alert(data.message || "Login failed. Please check your credentials.");
+        navigate("/");
       }
     } catch (error) {
       console.error("❌ Login error:", error);
-      alert("An unexpected error occurred. Please try again.");
+      alert(error.response?.data?.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -75,9 +62,8 @@ const Login = () => {
 
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label>Email</label>
           <input
-            id="email"
             type="email"
             className="form-input"
             value={email}
@@ -88,9 +74,8 @@ const Login = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label>Password</label>
           <input
-            id="password"
             type="password"
             className="form-input"
             value={password}
@@ -101,11 +86,10 @@ const Login = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="userType">Login as:</label>
+          <label>Login as:</label>
           <select
-            id="userType"
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
             className="form-input"
           >
             <option value="user">User</option>
