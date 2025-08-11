@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Admin from '../models/Admin.js';
 
-export const protectAdmin = async (req, res, next) => {
+const protectAdmin = async (req, res, next) => {
   let token;
 
   if (
@@ -24,3 +24,5 @@ export const protectAdmin = async (req, res, next) => {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
+
+export default protectAdmin;

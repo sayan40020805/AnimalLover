@@ -33,6 +33,21 @@ export const registerAdmin = async (req, res) => {
 export const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
 
+  // Hardcoded admin login support
+  if (email === 'admin2004@gmail.com' && password === 'sayan40028050') {
+    const admin = await Admin.findOne({ email });
+    if (admin) {
+      return res.json({
+        _id: admin._id,
+        name: admin.name,
+        email,
+        token: generateToken(admin._id, 'admin'),
+      });
+    } else {
+      return res.status(401).json({ message: 'Admin not found in database' });
+    }
+  }
+
   const admin = await Admin.findOne({ email });
   if (admin && (await admin.matchPassword(password))) {
     res.json({

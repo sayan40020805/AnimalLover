@@ -4,13 +4,12 @@ import {
   approveVolunteer
 } from "../controllers/volunteerController.js";
 
-import protect from "../middleware/authMiddleware.js";
-import { isAdmin } from "../middleware/isAdmin.js";
+import protectAdmin from "../middleware/protectAdmin.js";
 
 const router = express.Router();
 
 // Routes accessible only to authenticated admin users
-router.get("/pending", protect, isAdmin, getPendingVolunteers);
-router.patch("/:id/approve", protect, isAdmin, approveVolunteer);
+router.get("/pending", protectAdmin, getPendingVolunteers);
+router.patch(":id/approve", protectAdmin, approveVolunteer);
 
 export default router;

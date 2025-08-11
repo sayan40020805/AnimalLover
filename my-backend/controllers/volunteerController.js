@@ -3,8 +3,12 @@ import Volunteer from "../models/Volunteer.js";
 
 // Get all pending volunteers
 export const getPendingVolunteers = async (req, res) => {
-  const pending = await Volunteer.find({ isApproved: false });
-  res.json(pending);
+  try {
+    const pending = await Volunteer.find({ isApproved: false });
+    res.json({ volunteers: pending });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 // Approve volunteer

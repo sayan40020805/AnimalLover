@@ -1,6 +1,6 @@
 import express from 'express';
 import { registerAdmin, loginAdmin } from '../controllers/adminController.js';
-import { protectAdmin } from '../middleware/adminAuth.js';
+import protectAdmin from '../middleware/protectAdmin.js';
 import { deleteAnimal } from '../controllers/animalController.js';
 import { getPendingVolunteers } from '../controllers/volunteerController.js';
 

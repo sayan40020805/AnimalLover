@@ -2,13 +2,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ token }) => {
     const [volunteers, setVolunteers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const token = localStorage.getItem("token"); // Assuming you store JWT in localStorage
+    const [error, setError] = useState("");
 
-    // Fetch pending volunteers
     useEffect(() => {
+        if (!token) {
+            setError("No admin token provided. Please log in as admin.");
+            setLoading(false);
+            return;
+        }
         const fetchPendingVolunteers = async () => {
             try {
                 const res = await axios.get("/api/admin/pending-volunteers", {
@@ -18,8 +22,8 @@ const AdminDashboard = () => {
                 });
                 setVolunteers(res.data.volunteers || []);
             } catch (err) {
+                setError(err.response?.data?.message || err.message);
                 console.error(err);
-                alert("Failed to load pending volunteers");
             } finally {
                 setLoading(false);
             }
@@ -46,6 +50,7 @@ const AdminDashboard = () => {
     };
 
     if (loading) return <p>Loading pending volunteers...</p>;
+    if (error) return <p style={{ color: "red" }}>{error}</p>;
 
     return (
         <div style={{ padding: "20px" }}>

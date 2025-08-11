@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api"; // ✅ centralized axios instance
 import "../styles/Login.css";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
@@ -25,13 +25,10 @@ const Login = () => {
         throw new Error("Invalid user data received from server.");
       }
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("role", user.role);
-      localStorage.setItem("userId", user._id);
-
+      // Only call onLogin for admin, remove localStorage usage
       if (user.role === "admin") {
         alert("Welcome Admin!");
+        if (onLogin) onLogin(token, user);
         return navigate("/admin");
       }
 
