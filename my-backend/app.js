@@ -8,18 +8,11 @@ import connectDB from './config/db.js';
 
 import userRoutes from './routes/userRoutes.js';
 import volunteerRoutes from './routes/volunteerRoutes.js';
-<<<<<<< HEAD
 import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
 import lostAnimalRoutes from './routes/lostAnimalRoutes.js';
 import rescueRoutes from './routes/rescueRoutes.js';
-=======
-import lostAnimalRoutes from './routes/lostAnimalRoutes.js';
-import rescueRoutes from './routes/rescueRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
-import authRoutes from './routes/authRoutes.js';
->>>>>>> d0af3953aaa041f10c9ea5afc53a3cebf2c851c2
 
 dotenv.config();
 
@@ -46,17 +39,10 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/volunteers', volunteerRoutes);
-<<<<<<< HEAD
 app.use('/api/admin', adminRoutes);
 app.use('/api/animals', animalRoutes);
 app.use('/api/lost-animals', lostAnimalRoutes);
 app.use('/api/rescue', rescueRoutes);
-=======
-app.use('/api/lost-animals', lostAnimalRoutes);
-app.use('/api/rescue', rescueRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/auth', authRoutes);
->>>>>>> d0af3953aaa041f10c9ea5afc53a3cebf2c851c2
 
 // ✅ Root
 app.get('/', (req, res) => {
