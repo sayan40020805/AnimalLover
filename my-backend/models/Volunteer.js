@@ -30,6 +30,11 @@ const volunteerSchema = new mongoose.Schema(
       required: [true, 'Location is required'],
       trim: true,
     },
+    coveredLocations: [{
+      type: String,
+      required: [true, 'At least one covered location is required'],
+      trim: true,
+    }],
     isApproved: {
       type: Boolean,
       default: false, // ✅ Admin approval required

@@ -18,6 +18,7 @@ import UserDashboard from "./pages/UserDashboard";
 import UserSignup from "./pages/UserSignup";
 import VolunteerSignup from "./pages/VolunteerSignup";
 import SignupSelection from "./pages/SignupSelection";
+import VolunteerList from "./pages/VolunteerList";
 import "./App.css";
 
 // Remove ProtectedRoute for admin, keep for other roles if needed
@@ -43,6 +44,7 @@ function App() {
           <Route path="volunteer-signup" element={<VolunteerSignup />} />
           <Route path="signup" element={<SignupSelection />} />
           <Route path="donate" element={<Donate />} />
+          <Route path="volunteers" element={<VolunteerList />} />
           <Route path="admin" element={<AdminDashboard token={adminToken} />} />
           {/* Keep ProtectedRoute for volunteer/user if you want */}
           <Route path="volunteer" element={<VolunteerDashboard />} />

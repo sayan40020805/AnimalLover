@@ -26,6 +26,9 @@ const Navbar = () => {
                 <li className="nav-item">
                     <Link to="/about" className="nav-link">About</Link>
                 </li>
+                <li className="nav-item">
+                    <Link to="/volunteers" className="nav-link">Volunteers</Link>
+                </li>
 
                 {/* Admin Dashboard */}
                 {isLoggedIn && isAdmin && (

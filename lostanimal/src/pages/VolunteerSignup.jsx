@@ -12,6 +12,7 @@ const VolunteerSignup = () => {
     phone: "",
     password: "",
     location: "",
+    coveredLocations: "",
   });
 
   const [loading, setLoading] = useState(false);

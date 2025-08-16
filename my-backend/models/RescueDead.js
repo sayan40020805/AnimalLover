@@ -36,11 +36,16 @@ const rescueDeadSchema = new mongoose.Schema(
       enum: ['Pending', 'Verified', 'Cleared'],
       default: 'Pending',
     },
-    reportedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+  reportedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  assignedVolunteer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Volunteer',
+    default: null,
+  },
   },
   {
     timestamps: true,

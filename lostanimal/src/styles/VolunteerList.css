@@ -1,0 +1,97 @@
+.volunteer-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.volunteer-list-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+}
+
+.loading, .error {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: #e74c3c;
+}
+
+.no-volunteers {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+.volunteers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.volunteer-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.volunteer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.volunteer-info h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.volunteer-info p {
+    margin: 0.5rem 0;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+.volunteer-info strong {
+    color: #2c3e50;
+}
+
+.approved {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.pending {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .volunteer-list-container {
+        padding: 1rem;
+    }
+    
+    .volunteers-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .volunteer-list-container h1 {
+        font-size: 2rem;
+    }
+}

@@ -15,25 +15,26 @@ const Login = () => {
     setLoading(true);
 
     try {
-      let endpoint = "http://localhost:5000/api/users/login";
-      if (role === "admin") {
-        endpoint = "http://localhost:5000/api/admin/login";
-      } else if (role === "volunteer") {
-        endpoint = "http://localhost:5000/api/volunteers/login";
-      }
+      let endpoint = "http://localhost:5000/api/auth/login";
 
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, role }),
       });
 
       const data = await res.json();
       console.log("🔁 Login Response:", data);
 
       if (res.ok) {
-        const userData = data.user || data.volunteer || data.admin;
+        // Handle both nested and flat response structures
+        let userData;
+        if (role === "admin") {
+          userData = data; // admin returns flat structure
+        } else {
+          userData = data.user || data.volunteer || data;
+        }
 
         if (!userData || (!userData._id && !userData.id)) {
           throw new Error("User data missing ID.");
@@ -48,7 +49,7 @@ const Login = () => {
 
         if (role === "admin") {
           alert("Welcome Admin!");
-          return navigate("/admin-dashboard");
+          return navigate("/admin");
         }
 
         if (role === "volunteer" && userData.isApproved === false) {

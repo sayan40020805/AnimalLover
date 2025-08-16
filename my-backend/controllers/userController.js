@@ -4,7 +4,6 @@ import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
 import Admin from '../models/Admin.js';
 import jwt from 'jsonwebtoken';
-import Admin from '../models/Admin.js';
 
 // ✅ Generate JWT token
 const generateToken = (id, role) => {
@@ -17,7 +16,6 @@ const roleModels = {
   volunteer: Volunteer,
   admin: Admin,
 };
-
 
 // ✅ Shared registration for user, volunteer, admin
 export const register = async (req, res) => {
@@ -38,7 +36,7 @@ export const register = async (req, res) => {
     if (role === 'volunteer') {
       data.phone = phone;
       data.location = location;
-      data.isApproved = false;
+      data.isApproved = false; // volunteers need approval
     }
 
     const newUser = await Model.create(data);
@@ -68,8 +66,7 @@ export const register = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// ✅ Volunteer registration
+// ✅ Volunteer-only registration
 export const registerVolunteer = async (req, res) => {
   try {
     const { name, email, phone, password, location } = req.body;
@@ -83,7 +80,6 @@ export const registerVolunteer = async (req, res) => {
       return res.status(400).json({ message: 'Volunteer already exists' });
     }
 
-    // Let model handle hashing
     const newVolunteer = await Volunteer.create({ name, email, phone, location, password });
     const token = generateToken(newVolunteer._id, 'volunteer');
 
@@ -103,53 +99,24 @@ export const registerVolunteer = async (req, res) => {
   }
 };
 
-// ✅ Login (user, volunteer, or admin)
-=======
-// ✅ Shared login for user, volunteer, admin
->>>>>>> d0af3953aaa041f10c9ea5afc53a3cebf2c851c2
+// ✅ Shared login (user, volunteer, admin)
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
-<<<<<<< HEAD
-    // 🚨 Admin Login (Hardcoded)
+    // 🚨 Hardcoded Admin Login
     if (role === 'admin' && email === 'admin2004@gmail.com' && password === 'sayan40028050') {
-      const token = jwt.sign({ id: 'admin001', role: 'admin' }, process.env.JWT_SECRET, {
-        expiresIn: '7d',
-      });
-
-      return res.status(200).json({
-        message: 'Admin login successful',
-        token,
-        admin: { 
-          id: 'admin001', 
-          email: 'admin2004@gmail.com', 
-          name: 'Admin', 
-          role: 'admin' 
-        },
-      });
-    }
-
-    if (!['user', 'volunteer'].includes(role)) {
-      return res.status(400).json({ message: 'Invalid role' });
-=======
-    // Hardcoded admin login (can login with any role selected)
-    if (
-      email === 'admin2004@gmail.com' &&
-      password === 'sayan40028050'
-    ) {
-      const token = generateToken('admin-id', 'admin');
+      const token = generateToken('admin001', 'admin');
       return res.status(200).json({
         message: 'Admin login successful',
         user: {
-          _id: 'admin-id',
+          _id: 'admin001',
           name: 'Admin',
           email,
           role: 'admin',
         },
         token,
       });
->>>>>>> d0af3953aaa041f10c9ea5afc53a3cebf2c851c2
     }
 
     const Model = roleModels[role];
@@ -161,8 +128,9 @@ export const login = async (req, res) => {
     const isMatch = await user.matchPassword(password);
     if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
 
-    if (role === 'volunteer' && !user.isApproved)
+    if (role === 'volunteer' && !user.isApproved) {
       return res.status(403).json({ message: 'Volunteer not approved yet' });
+    }
 
     const token = generateToken(user._id, role);
 
