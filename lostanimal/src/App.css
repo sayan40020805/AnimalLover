@@ -4,6 +4,34 @@ body.dark-mode {
     color: #ffffff;
 }
 
+/* 3D Black & Glow Sky Blue Theme */
+body {
+    background: #111 !important;
+    color: #fff !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #00b4d8 !important;
+    text-shadow: 0 0 12px #00b4d8, 0 2px 4px #000;
+}
+
+a,
+button {
+    border-radius: 10px;
+    box-shadow: 0 0 16px 4px #00b4d8, 0 2px 8px #000 inset;
+    transition: box-shadow 0.3s, background 0.3s;
+}
+
+a:hover,
+button:hover {
+    box-shadow: 0 0 32px 8px #00b4d8, 0 2px 8px #000 inset;
+}
+
 /* Example: universal container styles */
 .dark-mode .container {
     background-color: #1e1e1e;

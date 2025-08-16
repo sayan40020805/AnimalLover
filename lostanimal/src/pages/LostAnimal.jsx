@@ -1,4 +1,6 @@
+// src/pages/LostAnimal.jsx
 import React, { useState } from "react";
+import api from "../api/api"; // ✅ use centralized axios
 import "../styles/LostAnimal.css";
 
 const LostAnimal = () => {
@@ -19,8 +21,19 @@ const LostAnimal = () => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, image: file }));
+    setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+  };
+
+  const resetForm = () => {
+    setFormData({
+      animalType: "",
+      lastSeenLocation: "",
+      description: "",
+      reporterName: "",
+      reporterPhone: "",
+      image: null,
+    });
+    document.getElementById("imageUpload").value = "";
   };
 
   const handleSubmit = async (e) => {
@@ -29,39 +42,23 @@ const LostAnimal = () => {
 
     try {
       const data = new FormData();
-      data.append("animalType", formData.animalType);
-      data.append("lastSeenLocation", formData.lastSeenLocation);
-      data.append("description", formData.description);
-      data.append("reporterName", formData.reporterName);
-      data.append("reporterPhone", formData.reporterPhone);
-      if (formData.image) {
-        data.append("image", formData.image);
-      }
-
-      const res = await fetch("http://localhost:5000/api/lost-animals", {
-        method: "POST",
-        body: data,
+      Object.keys(formData).forEach((key) => {
+        if (formData[key]) data.append(key, formData[key]);
       });
 
-      const result = await res.json();
+      const res = await api.post("/lost-animals", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      if (res.ok) {
+      if (res.status === 201 || res.status === 200) {
         alert("Lost animal report submitted successfully!");
-        setFormData({
-          animalType: "",
-          lastSeenLocation: "",
-          description: "",
-          reporterName: "",
-          reporterPhone: "",
-          image: null,
-        });
-        document.getElementById("imageUpload").value = "";
+        resetForm();
       } else {
-        alert(result.message || "Submission failed");
+        alert(res.data.message || "Submission failed");
       }
     } catch (error) {
-      console.error("Submit Error:", error);
-      alert("Something went wrong. Please try again.");
+      console.error("❌ Submit Error:", error);
+      alert(error.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -70,7 +67,7 @@ const LostAnimal = () => {
   return (
     <div className="lost-animal-container">
       <h2>Report a Lost Animal</h2>
-      <p>If you have lost an animal, please provide the details below.</p>
+      <p>Please fill in the details below to help us locate the animal.</p>
 
       <form onSubmit={handleSubmit} className="lost-animal-form">
         <label>
@@ -102,7 +99,7 @@ const LostAnimal = () => {
             value={formData.description}
             onChange={handleChange}
             required
-          ></textarea>
+          />
         </label>
 
         <label>

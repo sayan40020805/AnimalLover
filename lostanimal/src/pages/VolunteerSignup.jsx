@@ -1,6 +1,7 @@
+// src/pages/VolunteerSignup.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/api"; // ✅ use centralized axios instance
+import api from "../api/api"; // ✅ centralized axios instance
 import "../styles/Signup.css";
 
 const VolunteerSignup = () => {
@@ -14,30 +15,46 @@ const VolunteerSignup = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value.trimStart(),
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
+    setErrorMsg("");
+
+    // ✅ Client-side validation
+    if (!formData.name || !formData.email || !formData.password || !formData.phone || !formData.location) {
+      setErrorMsg("Please fill in all fields.");
+      return;
+    }
+    if (formData.password.length < 6) {
+      setErrorMsg("Password must be at least 6 characters.");
+      return;
+    }
+    if (!/^\d{10}$/.test(formData.phone)) {
+      setErrorMsg("Phone number must be 10 digits.");
+      return;
+    }
 
     try {
-      // ✅ Corrected API endpoint
+      setLoading(true);
       const res = await api.post("/auth/register/volunteer", formData);
 
       if (res.status === 201) {
         alert("Volunteer registered successfully! Awaiting admin approval.");
         navigate("/login");
       } else {
-        setError(res.data.message || "Something went wrong.");
+        setErrorMsg(res.data.message || "Something went wrong.");
       }
     } catch (err) {
       console.error("Signup error:", err);
-      setError(err.response?.data?.message || "Server error. Try again.");
+      setErrorMsg(err.response?.data?.message || "Server error. Try again.");
     } finally {
       setLoading(false);
     }
@@ -46,6 +63,11 @@ const VolunteerSignup = () => {
   return (
     <div className="signup-container">
       <h2 className="signup-title">Volunteer Sign Up</h2>
+      <p className="info-message">
+        Fill out the form below to apply as a volunteer. Your application will be reviewed by an admin. You can log in only after approval.
+      </p>
+
+      {errorMsg && <p className="error-message">{errorMsg}</p>}
 
       <form onSubmit={handleSubmit} className="signup-form">
         <input
@@ -54,7 +76,6 @@ const VolunteerSignup = () => {
           placeholder="Full Name"
           value={formData.name}
           onChange={handleChange}
-          required
         />
         <input
           type="email"
@@ -62,7 +83,6 @@ const VolunteerSignup = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          required
         />
         <input
           type="tel"
@@ -70,7 +90,6 @@ const VolunteerSignup = () => {
           placeholder="Phone Number"
           value={formData.phone}
           onChange={handleChange}
-          required
         />
         <input
           type="text"
@@ -78,22 +97,18 @@ const VolunteerSignup = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          required
         />
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Password (min 6 chars)"
           value={formData.password}
           onChange={handleChange}
-          required
         />
 
         <button type="submit" className="signup-button" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
-
-        {error && <p className="error-message">{error}</p>}
       </form>
     </div>
   );

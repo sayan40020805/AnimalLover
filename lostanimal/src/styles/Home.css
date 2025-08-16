@@ -267,3 +267,83 @@ body.dark-mode .home-footer {
   background: linear-gradient(to right, #1a1a1a, #2e2e2e);
   color: #ccc;
 }
+
+/* =================== New Styles =================== */
+.black-glow {
+  background: #111;
+  color: #fff;
+  border: none;
+  box-shadow: 0 0 16px 4px #e63946, 0 2px 8px #000 inset;
+  text-shadow: 0 0 8px #e63946, 0 2px 4px #000;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 12px 28px;
+  transition: box-shadow 0.3s, background 0.3s;
+  outline: none;
+  font-size: 1.1rem;
+}
+
+.black-glow:hover {
+  background: #222;
+  box-shadow: 0 0 32px 8px #e63946, 0 2px 8px #000 inset;
+  color: #fff;
+}
+
+.glow-red {
+  color: #e63946;
+  text-shadow: 0 0 12px #e63946, 0 2px 4px #000;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 2rem;
+}
+
+.volunteer-request-section {
+  margin: 32px auto 24px auto;
+  padding: 32px 24px;
+  background: #181818;
+  border-radius: 16px;
+  box-shadow: 0 0 32px 8px #e63946, 0 2px 8px #000 inset;
+  max-width: 600px;
+}
+
+.volunteer-title {
+  margin-bottom: 12px;
+}
+
+.volunteer-subtitle {
+  color: #fff;
+  margin-bottom: 18px;
+  font-size: 1.15rem;
+}
+
+.volunteer-button {
+  margin-top: 10px;
+}
+
+.home-button.black-glow,
+.action-link.black-glow,
+.adopt-link.black-glow,
+.donate-button.black-glow,
+.volunteer-button.black-glow {
+  background: #111 !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 0 16px 4px #e63946, 0 2px 8px #000 inset;
+  text-shadow: 0 0 8px #e63946, 0 2px 4px #000;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 12px 28px;
+  transition: box-shadow 0.3s, background 0.3s;
+  outline: none;
+  font-size: 1.1rem;
+}
+
+.home-button.black-glow:hover,
+.action-link.black-glow:hover,
+.adopt-link.black-glow:hover,
+.donate-button.black-glow:hover,
+.volunteer-button.black-glow:hover {
+  background: #222 !important;
+  box-shadow: 0 0 32px 8px #e63946, 0 2px 8px #000 inset;
+  color: #fff !important;
+}

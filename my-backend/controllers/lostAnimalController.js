@@ -1,5 +1,19 @@
 import LostAnimal from '../models/LostAnimal.js';
 
+// GET lost animal reports
+export const getLostAnimals = async (req, res) => {
+  try {
+    const filter = {};
+    if (req.query.reportedBy) {
+      filter.reportedBy = req.query.reportedBy;
+    }
+    const lostAnimals = await LostAnimal.find(filter);
+    res.status(200).json({ lostAnimals });
+  } catch (error) {
+    console.error('Get Lost Animals Error:', error);
+    res.status(500).json({ message: 'Server error fetching lost animals' });
+  }
+};
 // POST lost animal report
 export const reportLostAnimal = async (req, res) => {
   try {

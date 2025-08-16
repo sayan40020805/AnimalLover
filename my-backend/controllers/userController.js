@@ -2,6 +2,7 @@
 
 import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
+import Admin from '../models/Admin.js';
 import jwt from 'jsonwebtoken';
 import Admin from '../models/Admin.js';
 
@@ -10,39 +11,64 @@ const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
-// ✅ User registration
-export const registerUser = async (req, res) => {
-  try {
-    const { name, email, phone, password } = req.body;
+// Role to Model mapping
+const roleModels = {
+  user: User,
+  volunteer: Volunteer,
+  admin: Admin,
+};
 
-    if (password.length < 6) {
+
+// ✅ Shared registration for user, volunteer, admin
+export const register = async (req, res) => {
+  try {
+    const { role, name, email, phone, password, location } = req.body;
+    const Model = roleModels[role];
+    if (!Model) return res.status(400).json({ message: 'Invalid role.' });
+
+    if (!password || password.length < 6) {
       return res.status(400).json({ message: 'Password must be at least 6 characters long' });
     }
 
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+    const exists = await Model.findOne({ email });
+    if (exists) return res.status(400).json({ message: 'Email already registered.' });
+
+    let data = { name, email, password };
+    if (role === 'user') data.phone = phone;
+    if (role === 'volunteer') {
+      data.phone = phone;
+      data.location = location;
+      data.isApproved = false;
     }
 
-    // Let model handle hashing in pre('save')
-    const newUser = await User.create({ name, email, phone, password });
-    const token = generateToken(newUser._id, 'user');
+    const newUser = await Model.create(data);
+    const token = generateToken(newUser._id, role);
+
+    let userInfo = {
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      role,
+    };
+    if (role === 'user') userInfo.phone = newUser.phone;
+    if (role === 'volunteer') {
+      userInfo.phone = newUser.phone;
+      userInfo.location = newUser.location;
+      userInfo.isApproved = newUser.isApproved;
+    }
 
     res.status(201).json({
-      message: 'User registered successfully',
-      user: {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-      },
+      message: `${role.charAt(0).toUpperCase() + role.slice(1)} registered successfully`,
+      user: userInfo,
       token,
     });
   } catch (error) {
-    console.error('❌ Register User Error:', error.message);
-    res.status(500).json({ message: 'Server error during user registration' });
+    console.error('❌ Register Error:', error.message);
+    res.status(500).json({ message: 'Server error during registration' });
   }
 };
 
+<<<<<<< HEAD
 // ✅ Volunteer registration
 export const registerVolunteer = async (req, res) => {
   try {
@@ -78,10 +104,14 @@ export const registerVolunteer = async (req, res) => {
 };
 
 // ✅ Login (user, volunteer, or admin)
+=======
+// ✅ Shared login for user, volunteer, admin
+>>>>>>> d0af3953aaa041f10c9ea5afc53a3cebf2c851c2
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
+<<<<<<< HEAD
     // 🚨 Admin Login (Hardcoded)
     if (role === 'admin' && email === 'admin2004@gmail.com' && password === 'sayan40028050') {
       const token = jwt.sign({ id: 'admin001', role: 'admin' }, process.env.JWT_SECRET, {
@@ -102,13 +132,32 @@ export const login = async (req, res) => {
 
     if (!['user', 'volunteer'].includes(role)) {
       return res.status(400).json({ message: 'Invalid role' });
+=======
+    // Hardcoded admin login (can login with any role selected)
+    if (
+      email === 'admin2004@gmail.com' &&
+      password === 'sayan40028050'
+    ) {
+      const token = generateToken('admin-id', 'admin');
+      return res.status(200).json({
+        message: 'Admin login successful',
+        user: {
+          _id: 'admin-id',
+          name: 'Admin',
+          email,
+          role: 'admin',
+        },
+        token,
+      });
+>>>>>>> d0af3953aaa041f10c9ea5afc53a3cebf2c851c2
     }
 
-    const Model = role === 'user' ? User : Volunteer;
+    const Model = roleModels[role];
+    if (!Model) return res.status(400).json({ message: 'Invalid role' });
+
     const user = await Model.findOne({ email });
     if (!user) return res.status(404).json({ message: `${role} not found` });
 
-    // ✅ Correct way to compare hashed password
     const isMatch = await user.matchPassword(password);
     if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
 
@@ -117,14 +166,22 @@ export const login = async (req, res) => {
 
     const token = generateToken(user._id, role);
 
+    let userInfo = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role,
+    };
+    if (role === 'user') userInfo.phone = user.phone;
+    if (role === 'volunteer') {
+      userInfo.phone = user.phone;
+      userInfo.location = user.location;
+      userInfo.isApproved = user.isApproved;
+    }
+
     res.status(200).json({
       message: 'Login successful',
-      [role]: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        ...(role === 'volunteer' && { location: user.location }),
-      },
+      user: userInfo,
       token,
     });
   } catch (error) {
@@ -133,11 +190,11 @@ export const login = async (req, res) => {
   }
 };
 
-// ✅ Get current user/volunteer
+// ✅ Get current user/volunteer/admin
 export const getCurrentUser = async (req, res) => {
   try {
     const { id, role } = req.user;
-    const Model = role === 'user' ? User : Volunteer;
+    const Model = roleModels[role];
     const user = await Model.findById(id).select('-password');
 
     if (!user) return res.status(404).json({ message: 'User not found' });
