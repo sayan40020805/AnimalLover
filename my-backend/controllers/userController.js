@@ -77,10 +77,28 @@ export const registerVolunteer = async (req, res) => {
   }
 };
 
-// ✅ Login (user or volunteer)
+// ✅ Login (user, volunteer, or admin)
 export const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
+
+    // 🚨 Admin Login (Hardcoded)
+    if (role === 'admin' && email === 'admin2004@gmail.com' && password === 'sayan40028050') {
+      const token = jwt.sign({ id: 'admin001', role: 'admin' }, process.env.JWT_SECRET, {
+        expiresIn: '7d',
+      });
+
+      return res.status(200).json({
+        message: 'Admin login successful',
+        token,
+        admin: { 
+          id: 'admin001', 
+          email: 'admin2004@gmail.com', 
+          name: 'Admin', 
+          role: 'admin' 
+        },
+      });
+    }
 
     if (!['user', 'volunteer'].includes(role)) {
       return res.status(400).json({ message: 'Invalid role' });
@@ -93,6 +111,9 @@ export const login = async (req, res) => {
     // ✅ Correct way to compare hashed password
     const isMatch = await user.matchPassword(password);
     if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
+
+    if (role === 'volunteer' && !user.isApproved)
+      return res.status(403).json({ message: 'Volunteer not approved yet' });
 
     const token = generateToken(user._id, role);
 

@@ -2,7 +2,7 @@
 import express from "express";
 import { getPendingVolunteers, approveVolunteer } from "../controllers/adminController.js";
 import isAdmin from "../middleware/isAdmin.js";
-import { protect } from "../middleware/authMiddleware.js"; // your existing auth middleware
+import protect from "../middleware/authMiddleware.js"; // your existing auth middleware
 
 const router = express.Router();
 

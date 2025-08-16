@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import "../styles/AdminDashboard.css";
 
@@ -6,6 +7,7 @@ const AdminDashboard = () => {
     const [volunteers, setVolunteers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const fetchPendingVolunteers = async () => {
         setLoading(true);
@@ -15,7 +17,12 @@ const AdminDashboard = () => {
             setVolunteers(res.data.volunteers || []);
         } catch (err) {
             console.error("Error fetching volunteers:", err);
-            setError("Failed to load volunteers.");
+            if (err.response?.status === 401 || err.response?.status === 403) {
+                localStorage.removeItem("token");
+                navigate("/login");
+            } else {
+                setError("Failed to load volunteers.");
+            }
         } finally {
             setLoading(false);
         }
@@ -33,8 +40,15 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
+        // Check if user is admin
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+        
         fetchPendingVolunteers();
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="admin-dashboard">

@@ -5,7 +5,7 @@ import {
   getAnimals,
   deleteAnimal,
 } from '../controllers/animalController.js';
-import { protect } from '../middleware/authMiddleware.js'; // Optional, use if securing routes
+import protect from '../middleware/authMiddleware.js'; // Optional, use if securing routes
 
 const router = express.Router();
 

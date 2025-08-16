@@ -11,6 +11,18 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+      // Handle admin token
+      if (decoded.role === 'admin') {
+        req.user = {
+          id: 'admin001',
+          role: 'admin',
+          name: 'Admin',
+          email: 'admin2004@gmail.com',
+        };
+        return next();
+      }
+
+      // Handle user and volunteer tokens
       const Model = decoded.role === 'volunteer' ? Volunteer : User;
       const user = await Model.findById(decoded.id).select('-password');
 

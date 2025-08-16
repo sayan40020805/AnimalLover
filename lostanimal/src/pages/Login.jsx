@@ -29,21 +29,26 @@ const Login = () => {
         return;
       }
 
-      const userData = data[userType]; // 'user', 'volunteer', or 'admin'
+      let userData;
+      if (userType === 'admin') {
+        userData = data.admin;
+      } else {
+        userData = data[userType]; // 'user' or 'volunteer'
+      }
 
-      if (!userData || !userData._id) {
+      if (!userData || !userData.id) {
         throw new Error("User data missing or invalid.");
       }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("userType", userType);
-      localStorage.setItem("userId", userData._id);
+      localStorage.setItem("userId", userData.id);
 
       // 🎯 Role-specific logic
       if (userType === "admin") {
         alert("Welcome Admin!");
-        return navigate("/admin-dashboard");
+        return navigate("/admin");
       }
 
       if (userType === "volunteer" && userData.isApproved === false) {
