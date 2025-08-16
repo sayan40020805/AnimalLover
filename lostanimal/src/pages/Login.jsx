@@ -17,49 +17,46 @@ const Login = () => {
       const res = await fetch("http://localhost:5000/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // Important if using cookies
+        credentials: "include",
         body: JSON.stringify({ email, password, role: userType }),
       });
 
       const data = await res.json();
       console.log("🔁 Login Response:", data);
 
-      if (res.ok) {
-        const userData = data.user || data.volunteer || data.admin;
-
-        if (!userData || (!userData._id && !userData.id)) {
-          throw new Error("User data missing ID.");
-        }
-
-        const userId = userData._id || userData.id;
-
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("userType", userType);
-        localStorage.setItem("userId", userId);
-
-        // ✅ Admin login redirect
-        if (userType === "admin") {
-          alert("Welcome Admin!");
-          return navigate("/admin-dashboard");
-        }
-
-        // ✅ Volunteer approval check
-        if (userType === "volunteer" && userData.isApproved === false) {
-          alert("Your account is not approved yet. Please wait for admin approval.");
-          return;
-        }
-
-        alert("Login successful!");
-
-        // 🎯 Redirect based on role
-        if (userType === "volunteer") {
-          navigate("/volunteer-dashboard");
-        } else {
-          navigate("/"); // user
-        }
-      } else {
+      if (!res.ok) {
         alert(data.message || "Login failed. Please check your credentials.");
+        return;
+      }
+
+      const userData = data[userType]; // 'user', 'volunteer', or 'admin'
+
+      if (!userData || !userData._id) {
+        throw new Error("User data missing or invalid.");
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("userType", userType);
+      localStorage.setItem("userId", userData._id);
+
+      // 🎯 Role-specific logic
+      if (userType === "admin") {
+        alert("Welcome Admin!");
+        return navigate("/admin-dashboard");
+      }
+
+      if (userType === "volunteer" && userData.isApproved === false) {
+        alert("Your account is not approved yet. Please wait for admin approval.");
+        return;
+      }
+
+      alert("Login successful!");
+
+      if (userType === "volunteer") {
+        navigate("/volunteer-dashboard");
+      } else {
+        navigate("/"); // user
       }
     } catch (error) {
       console.error("❌ Login error:", error);

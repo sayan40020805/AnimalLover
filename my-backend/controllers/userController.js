@@ -3,6 +3,7 @@
 import User from '../models/User.js';
 import Volunteer from '../models/Volunteer.js';
 import jwt from 'jsonwebtoken';
+import Admin from '../models/Admin.js';
 
 // ✅ Generate JWT token
 const generateToken = (id, role) => {
