@@ -6,7 +6,8 @@ import "../styles/Navbar.css";
 const Navbar = () => {
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : null;
 
     const isAdmin = user?.role === "admin";
     const isVolunteer = user?.role === "volunteer";
@@ -18,7 +19,9 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="top-navigation" role="navigation">
+        <nav className="top-navigation" role="navigation" aria-label="Main header">
+            <div className="project-brand">AnimalLover</div>
+
             <ul className="nav-list">
                 <li className="nav-item">
                     <Link to="/" className="nav-link">Home</Link>
@@ -30,28 +33,24 @@ const Navbar = () => {
                     <Link to="/volunteers" className="nav-link">Volunteers</Link>
                 </li>
 
-                {/* Admin Dashboard */}
                 {isLoggedIn && isAdmin && (
                     <li className="nav-item">
                         <Link to="/admin" className="nav-link">Admin Dashboard</Link>
                     </li>
                 )}
 
-                {/* Volunteer Dashboard */}
                 {isLoggedIn && isVolunteer && (
                     <li className="nav-item">
                         <Link to="/volunteer" className="nav-link">Volunteer Dashboard</Link>
                     </li>
                 )}
 
-                {/* User Dashboard */}
                 {isLoggedIn && isUser && (
                     <li className="nav-item">
                         <Link to="/user-dashboard" className="nav-link">User Dashboard</Link>
                     </li>
                 )}
 
-                {/* Auth Buttons */}
                 {!isLoggedIn ? (
                     <>
                         <li className="nav-item">
@@ -63,11 +62,7 @@ const Navbar = () => {
                     </>
                 ) : (
                     <li className="nav-item">
-                        <button
-                            className="nav-link logout-button"
-                            onClick={handleLogout}
-                            aria-label="Logout"
-                        >
+                        <button className="nav-link logout-button" onClick={handleLogout} aria-label="Logout">
                             Logout
                         </button>
                     </li>

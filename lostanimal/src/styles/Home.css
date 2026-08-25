@@ -1,349 +1,246 @@
 /* =================== General =================== */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', 'Poppins', 'Trebuchet MS', sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
-  background-color: #fbf8f8;
+  line-height: 1.5;
+  background-color: #f4f9ff;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* =================== Home Container =================== */
 .home-container {
-  padding: 120px 20px 60px;
+  padding: 110px 0 40px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   text-align: center;
   box-sizing: border-box;
 }
 
+.home-header {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.action-section,
+.compact-card-row {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .home-title {
-  color: #121212;
-  font-size: 2.75rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  color: #111827;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  margin: 0 0 0.6rem;
+  letter-spacing: -0.04em;
 }
 
 .home-subtitle {
-  color: #444;
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-/* =================== Navbar =================== */
-.top-navigation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: white;
-  padding: 20px 30px;
-  display: flex;
-  justify-content: flex-end;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 20px;
+  color: #374151;
+  font-size: 1.12rem;
   margin: 0;
-  padding: 0;
 }
 
-.nav-link {
-  text-decoration: none;
-  padding: 10px 20px;
-  background-color: #2637d9;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+/* =================== Compact Cards Row =================== */
+.compact-card-row {
+  width: min(1100px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 18px auto 12px;
 }
 
-.nav-link:hover {
-  background-color: #4761f6;
-  transform: scale(1.05);
-  color: #fff;
-}
-
-/* =================== Dark Mode Toggle =================== */
-.dark-mode-toggle {
-  position: fixed;
-  top: 20px;
-  left: 30px;
-  background-color: #2637d9;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  z-index: 1000;
-}
-
-.dark-mode-toggle:hover {
-  background-color: #1e2eb9;
+.compact-card {
+  background: #f3f9ff;
+  border: 1px solid #cfe6ff;
+  border-radius: 16px;
+  padding: 18px 16px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 /* =================== Action Section =================== */
 .action-section {
-  margin: 40px 0;
+  width: min(1100px, 100%);
+  margin: 18px 0 0;
 }
 
 .action-title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 16px;
 }
 
 .action-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 14px;
   justify-content: center;
   padding: 0;
   list-style: none;
+  margin: 0;
+}
+
+.action-item {
+  display: flex;
 }
 
 .home-button {
-  background-color: #007bff;
-  color: white;
-  padding: 15px 25px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  background-color: #dfeeff;
+  color: #111827;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 700;
   text-decoration: none;
-  border-radius: 10px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 12px;
+  border: 1px solid #bfe0ff;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .home-button:hover {
-  background-color: #338cec;
-  transform: translateY(-3px);
+  background-color: #cfe6ff;
+  transform: translateY(-1px);
 }
 
-/* =================== Adopt Section =================== */
-.adopt-section {
-  background: #ffffff;
-  padding: 40px 30px;
-  border-radius: 12px;
-  max-width: 700px;
-  margin-bottom: 60px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+/* =================== Compact Card Content =================== */
+.adopt-section,
+.donate-section,
+.volunteer-request-section {
+  background: #f3f9ff;
+  border: 1px solid #cfe6ff;
+  border-radius: 16px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.adopt-title {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  color: #222;
+.adopt-title,
+.donate-title,
+.volunteer-title {
+  font-size: 1.6rem;
+  margin: 0 0 8px;
+  color: #111827;
 }
 
-.adopt-subtitle {
-  color: #555;
-  margin-bottom: 25px;
-  font-size: 1.1rem;
+.adopt-subtitle,
+.donate-subtitle,
+.volunteer-subtitle {
+  color: #374151;
+  margin: 0 0 14px;
+  font-size: 0.96rem;
 }
 
-.adopt-link {
-  background-color: #2637d9;
-  color: white;
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.adopt-link:hover {
-  background-color: #e68900;
-  color: white;
-}
-
-/* =================== Donate Section =================== */
-.donate-section {
-  background: #fff0e6;
-  padding: 40px 30px;
-  border-radius: 12px;
-  max-width: 700px;
-  margin-bottom: 60px;
-  box-shadow: 0 4px 12px rgba(255, 153, 102, 0.2);
-  transition: background-color 0.3s ease;
-}
-
-.donate-title {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  color: #d14f00;
-}
-
-.donate-subtitle {
-  color: #804000;
-  margin-bottom: 25px;
-  font-size: 1.1rem;
-}
-
-.donate-button {
-  background-color: #ff6b00;
-  color: white;
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.donate-button:hover {
-  background-color: #e65c00;
+.adopt-link,
+.donate-button,
+.volunteer-button {
+  width: fit-content;
+  min-width: 150px;
 }
 
 /* =================== Footer =================== */
 .home-footer {
-  background: linear-gradient(to right, #e0f2f1, #f2f2f2);
+  background: #ffffff;
   text-align: center;
-  padding: 1.5rem 1rem;
-  font-size: 1rem;
+  padding: 1.2rem 1rem;
+  font-size: 0.98rem;
   color: #333;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #dfeaf8;
   margin-top: auto;
   width: 100%;
 }
 
 /* =================== Dark Mode =================== */
 body.dark-mode {
-  background-color: #121212;
-  color: #ffffff;
+  background-color: #f4f9ff;
+  color: #111827;
 }
 
 body.dark-mode .home-container {
-  background-color: #1e1e1e;
+  background-color: #f4f9ff;
 }
 
 body.dark-mode .home-title,
 body.dark-mode .action-title,
 body.dark-mode .adopt-title,
-body.dark-mode .donate-title {
-  color: #f1f1f1;
-}
-
+body.dark-mode .donate-title,
+body.dark-mode .volunteer-title,
 body.dark-mode .home-subtitle,
 body.dark-mode .adopt-subtitle,
-body.dark-mode .donate-subtitle {
-  color: #cccccc;
+body.dark-mode .donate-subtitle,
+body.dark-mode .volunteer-subtitle {
+  color: #111827;
 }
 
-body.dark-mode .home-button,
-body.dark-mode .adopt-link,
-body.dark-mode .donate-button {
-  background-color: #2637d9;
-  color: #ffffff;
-}
-
-body.dark-mode .home-button:hover,
-body.dark-mode .adopt-link:hover,
-body.dark-mode .donate-button:hover {
-  background-color: #4761f6;
-}
-
-body.dark-mode .top-navigation {
-  background-color: #1e1e1e;
-}
-
+body.dark-mode .compact-card,
 body.dark-mode .adopt-section,
-body.dark-mode .donate-section {
-  background-color: #2a2a2a;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
-}
-
+body.dark-mode .donate-section,
+body.dark-mode .volunteer-request-section,
 body.dark-mode .home-footer {
-  background: linear-gradient(to right, #1a1a1a, #2e2e2e);
-  color: #ccc;
+  background-color: #ffffff;
+  border-color: #cfe6ff;
 }
 
-/* =================== New Styles =================== */
-.black-glow {
-  background: #111;
-  color: #fff;
-  border: none;
-  box-shadow: 0 0 16px 4px #e63946, 0 2px 8px #000 inset;
-  text-shadow: 0 0 8px #e63946, 0 2px 4px #000;
-  font-weight: 700;
-  border-radius: 10px;
-  padding: 12px 28px;
-  transition: box-shadow 0.3s, background 0.3s;
-  outline: none;
-  font-size: 1.1rem;
-}
-
-.black-glow:hover {
-  background: #222;
-  box-shadow: 0 0 32px 8px #e63946, 0 2px 8px #000 inset;
-  color: #fff;
-}
-
-.glow-red {
-  color: #e63946;
-  text-shadow: 0 0 12px #e63946, 0 2px 4px #000;
-  font-weight: 800;
-  letter-spacing: 1px;
-  font-size: 2rem;
-}
-
-.volunteer-request-section {
-  margin: 32px auto 24px auto;
-  padding: 32px 24px;
-  background: #181818;
-  border-radius: 16px;
-  box-shadow: 0 0 32px 8px #e63946, 0 2px 8px #000 inset;
-  max-width: 600px;
-}
-
-.volunteer-title {
-  margin-bottom: 12px;
-}
-
-.volunteer-subtitle {
-  color: #fff;
-  margin-bottom: 18px;
-  font-size: 1.15rem;
-}
-
-.volunteer-button {
-  margin-top: 10px;
-}
-
+/* =================== Preserved styles =================== */
+.black-glow,
 .home-button.black-glow,
 .action-link.black-glow,
 .adopt-link.black-glow,
 .donate-button.black-glow,
 .volunteer-button.black-glow {
-  background: #111 !important;
-  color: #fff !important;
-  border: none;
-  box-shadow: 0 0 16px 4px #e63946, 0 2px 8px #000 inset;
-  text-shadow: 0 0 8px #e63946, 0 2px 4px #000;
-  font-weight: 700;
-  border-radius: 10px;
-  padding: 12px 28px;
-  transition: box-shadow 0.3s, background 0.3s;
-  outline: none;
-  font-size: 1.1rem;
+  background: #dfeeff !important;
+  color: #111827 !important;
+  border: 1px solid #bfe0ff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
+.black-glow:hover,
 .home-button.black-glow:hover,
 .action-link.black-glow:hover,
 .adopt-link.black-glow:hover,
 .donate-button.black-glow:hover,
 .volunteer-button.black-glow:hover {
-  background: #222 !important;
-  box-shadow: 0 0 32px 8px #e63946, 0 2px 8px #000 inset;
-  color: #fff !important;
+  background: #cfe6ff !important;
+  color: #111827 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.glow-red {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+@media (max-width: 900px) {
+  .compact-card-row,
+  .action-list {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .compact-card-row,
+  .action-list {
+    grid-template-columns: 1fr;
+  }
+
+  .home-container {
+    padding-top: 130px;
+  }
 }

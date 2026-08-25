@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 
@@ -6,15 +6,10 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const Home = () => {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "enabled"
-  );
-
   const [userType, setUserType] = useState(null);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Get user info from localStorage
     const storedUser = localStorage.getItem("user");
     const role = localStorage.getItem("role");
 
@@ -24,27 +19,15 @@ const Home = () => {
     if (role) {
       setUserType(role);
     }
+
+    document.body.classList.remove("dark-mode");
   }, []);
-
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem("darkMode", newMode ? "enabled" : "disabled");
-  };
-
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-  }, [darkMode]);
 
   const isAdmin = user?.role === "admin";
 
   return (
-    <main className={`home-container ${darkMode ? "dark" : ""}`}>
+    <main className="home-container">
       <Navbar />
-
-      <button onClick={toggleDarkMode} className="dark-mode-toggle">
-        {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
-      </button>
 
       <header className="home-header">
         <h1 className="home-title">
@@ -72,14 +55,32 @@ const Home = () => {
       {/* Non-admin Sections */}
       {!isAdmin && (
         <>
-          {/* Volunteer Request Section */}
-          {userType !== "volunteer" && (
-            <section className="volunteer-request-section">
-              <h2 className="volunteer-title glow-red">Become a Volunteer</h2>
-              <p className="volunteer-subtitle">Help rescue and support animals in your area. Join our volunteer team!</p>
-              <Link to="/volunteer-signup" className="volunteer-button home-button black-glow">Request to be a Volunteer</Link>
+          <div className="compact-card-row">
+            {/* Volunteer Request Section */}
+            {userType !== "volunteer" && (
+              <section className="volunteer-request-section compact-card">
+                <h2 className="volunteer-title glow-red">Become a Volunteer</h2>
+                <p className="volunteer-subtitle">Join our rescue team.</p>
+                <Link to="/volunteer-signup" className="volunteer-button home-button black-glow">Volunteer</Link>
+              </section>
+            )}
+
+            <section className="adopt-section compact-card">
+              <h2 className="adopt-title glow-red">Adopt</h2>
+              <p className="adopt-subtitle">Give a home to animals in need.</p>
+              <Link to="/view-animals" className="adopt-link home-button black-glow">
+                View Animals
+              </Link>
             </section>
-          )}
+
+            <section className="donate-section compact-card">
+              <h2 className="donate-title glow-red">Donate</h2>
+              <p className="donate-subtitle">Help rescue and rehome pets.</p>
+              <Link to="/donate" className="donate-button home-button black-glow">
+                Donate Now
+              </Link>
+            </section>
+          </div>
 
           <section className="action-section">
             <h2 className="action-title glow-red">Take Action</h2>
@@ -91,40 +92,20 @@ const Home = () => {
               </li>
               <li className="action-item">
                 <Link to="/rescue-dead" className="action-link home-button black-glow">
-                  Report Dead Animal
+                  Dead Animal
                 </Link>
               </li>
               <li className="action-item">
                 <Link to="/rescue-accident" className="action-link home-button black-glow">
-                  Report Injured Animal
+                  Injured Animal
                 </Link>
               </li>
               <li className="action-item">
                 <Link to="/animal-info" className="action-link home-button black-glow">
-                  Animal First Aid
+                  First Aid
                 </Link>
               </li>
             </ul>
-          </section>
-
-          <section className="adopt-section">
-            <h2 className="adopt-title glow-red">Adopt an Animal</h2>
-            <p className="adopt-subtitle">
-              Give a loving home to animals in need. Adopt a pet today and make a difference.
-            </p>
-            <Link to="/view-animals" className="adopt-link home-button black-glow">
-              View Animals for Adoption
-            </Link>
-          </section>
-
-          <section className="donate-section">
-            <h2 className="donate-title glow-red">Support Our Cause</h2>
-            <p className="donate-subtitle">
-              Help us continue rescuing, treating, and rehoming animals in need.
-            </p>
-            <Link to="/donate" className="donate-button home-button black-glow">
-              Donate Now 💖
-            </Link>
           </section>
         </>
       )}

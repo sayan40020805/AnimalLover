@@ -1,97 +1,122 @@
 .volunteer-list-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 1.5rem 3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #111827;
 }
 
 .volunteer-list-container h1 {
     text-align: center;
-    color: #2c3e50;
+    color: #111827;
     margin-bottom: 0.5rem;
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 800;
 }
 
 .subtitle {
     text-align: center;
-    color: #7f8c8d;
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
+    color: #374151;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+.search-wrapper {
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+}
+
+.volunteer-search {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid #cfe6ff;
+    border-radius: 12px;
+    background: #f4f9ff;
+    color: #111827;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.volunteer-search:focus {
+    outline: none;
+    border-color: #9ecafc;
+    box-shadow: 0 0 0 3px rgba(158, 202, 252, 0.2);
 }
 
 .loading, .error {
     text-align: center;
     padding: 2rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    color: #111827;
 }
 
 .error {
-    color: #e74c3c;
+    color: #b91c1c;
 }
 
 .no-volunteers {
     text-align: center;
-    padding: 3rem;
-    color: #7f8c8d;
-    font-size: 1.2rem;
+    padding: 3rem 1rem;
+    color: #374151;
+    font-size: 1.1rem;
 }
 
 .volunteers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 .volunteer-card {
-    background: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #f4f9ff;
+    border: 1px solid #cfe6ff;
+    border-radius: 16px;
+    padding: 1.4rem;
+    transition: transform 0.2s ease;
 }
 
 .volunteer-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
 .volunteer-info h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+    color: #111827;
+    margin: 0 0 0.9rem;
+    font-size: 1.6rem;
+    font-weight: 800;
 }
 
 .volunteer-info p {
-    margin: 0.5rem 0;
-    color: #34495e;
+    margin: 0.55rem 0;
+    color: #374151;
     line-height: 1.6;
+    font-size: 0.98rem;
 }
 
 .volunteer-info strong {
-    color: #2c3e50;
+    color: #111827;
 }
 
 .approved {
-    color: #27ae60;
-    font-weight: bold;
+    color: #15803d;
+    font-weight: 700;
+    margin-left: 0.5rem;
 }
 
 .pending {
-    color: #f39c12;
-    font-weight: bold;
+    color: #b45309;
+    font-weight: 700;
+    margin-left: 0.5rem;
 }
 
 @media (max-width: 768px) {
     .volunteer-list-container {
-        padding: 1rem;
+        padding: 1rem 1rem 2.5rem;
     }
-    
+
     .volunteers-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
-    }
-    
-    .volunteer-list-container h1 {
-        font-size: 2rem;
     }
 }

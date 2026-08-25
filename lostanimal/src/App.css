@@ -1,13 +1,77 @@
-/* Enable dark mode globally */
-body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
+/* Global theme: white and light blue only, no glow effects, black text */
+:root {
+  color: #111827;
+  background-color: #f4f9ff;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3D Black & Glow Sky Blue Theme */
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  background: #f4f9ff !important;
+  color: #111827 !important;
+  font-family: 'Segoe UI', 'Poppins', 'Trebuchet MS', sans-serif;
+}
+
 body {
-    background: #111 !important;
-    color: #fff !important;
+  min-height: 100vh;
+  background: #f4f9ff !important;
+  color: #111827 !important;
+  font-family: 'Segoe UI', 'Poppins', 'Trebuchet MS', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  background-image: none !important;
+}
+
+body,
+body * {
+  color: #111827 !important;
+}
+
+main,
+section,
+article,
+div,
+form,
+label,
+input,
+textarea,
+select,
+button,
+table,
+thead,
+tbody,
+tr,
+th,
+td,
+.container,
+.panel,
+.card,
+.box,
+.page,
+.home-container,
+.about-section,
+.adopt-section,
+.donate-section,
+.login-container,
+.signup-container,
+.dashboard-card,
+.volunteer-request-section,
+.info-card,
+.user-card {
+  background-color: #f9fbff !important;
+  border-color: #cfe6ff !important;
+  color: #111827 !important;
 }
 
 h1,
@@ -15,48 +79,169 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-    color: #00b4d8 !important;
-    text-shadow: 0 0 12px #00b4d8, 0 2px 4px #000;
+h6,
+p,
+li,
+span,
+strong,
+small,
+label,
+th,
+td,
+a,
+button,
+input,
+textarea,
+select,
+option {
+  color: #111827 !important;
 }
 
 a,
-button {
-    border-radius: 10px;
-    box-shadow: 0 0 16px 4px #00b4d8, 0 2px 8px #000 inset;
-    transition: box-shadow 0.3s, background 0.3s;
+button,
+.nav-link,
+.home-button,
+.action-link,
+.adopt-link,
+.donate-button,
+.volunteer-button,
+.dark-mode-toggle {
+  background: #dfeeff !important;
+  color: #111827 !important;
+  border: 1px solid #bfe0ff !important;
+  border-radius: 10px;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 a:hover,
-button:hover {
-    box-shadow: 0 0 32px 8px #00b4d8, 0 2px 8px #000 inset;
+button:hover,
+.nav-link:hover,
+.home-button:hover,
+.action-link:hover,
+.adopt-link:hover,
+.donate-button:hover,
+.volunteer-button:hover,
+.dark-mode-toggle:hover {
+  background: #cfe6ff !important;
+  color: #111827 !important;
+  transform: none;
 }
 
-/* Example: universal container styles */
-.dark-mode .container {
-    background-color: #1e1e1e;
-    color: #f0f0f0;
+.black-glow,
+.home-button.black-glow,
+.action-link.black-glow,
+.adopt-link.black-glow,
+.donate-button.black-glow,
+.volunteer-button.black-glow {
+  background: #dfeeff !important;
+  color: #111827 !important;
+  border: 1px solid #bfe0ff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
-/* Update buttons in dark mode */
-.dark-mode .home-button,
-.dark-mode .nav-link,
-.dark-mode .dark-mode-toggle {
-    background-color: #2637d9;
-    color: white;
+.black-glow:hover,
+.home-button.black-glow:hover,
+.action-link.black-glow:hover,
+.adopt-link.black-glow:hover,
+.donate-button.black-glow:hover,
+.volunteer-button.black-glow:hover {
+  background: #cfe6ff !important;
+  color: #111827 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
-.dark-mode .home-button:hover,
-.dark-mode .nav-link:hover,
-.dark-mode .dark-mode-toggle:hover {
-    background-color: #4761f6;
-    color: #fff;
+.glow-red,
+.volunteer-title,
+.action-title,
+.adopt-title,
+.donate-title,
+.home-title,
+.home-subtitle,
+.volunteer-subtitle,
+.adopt-subtitle,
+.donate-subtitle {
+  color: #111827 !important;
+  text-shadow: none !important;
 }
 
-/* Optional: section overrides */
-.dark-mode section,
-.dark-mode .about-section,
-.dark-mode .adopt-section {
-    background-color: #1e1e1e;
-    color: #ffffff;
+body.dark-mode,
+body.dark-mode * {
+  background-color: #f4f9ff !important;
+  color: #111827 !important;
+  border-color: #cfe6ff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+body.dark-mode .top-navigation,
+body.dark-mode .home-footer,
+body.dark-mode .adopt-section,
+body.dark-mode .donate-section,
+body.dark-mode .home-container {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+body.dark-mode .home-button,
+body.dark-mode .nav-link,
+body.dark-mode .adopt-link,
+body.dark-mode .donate-button,
+body.dark-mode .volunteer-button {
+  background: #dfeeff !important;
+  color: #111827 !important;
+}
+
+body.dark-mode .home-button:hover,
+body.dark-mode .nav-link:hover,
+body.dark-mode .adopt-link:hover,
+body.dark-mode .donate-button:hover,
+body.dark-mode .volunteer-button:hover {
+  background: #cfe6ff !important;
+  color: #111827 !important;
+}
+
+body.dark-mode .home-title,
+body.dark-mode .action-title,
+body.dark-mode .adopt-title,
+body.dark-mode .donate-title,
+body.dark-mode .glow-red,
+body.dark-mode .volunteer-title {
+  color: #111827 !important;
+}
+
+main,
+section,
+article,
+div,
+form,
+fieldset,
+input,
+textarea,
+select,
+button,
+table,
+th,
+td,
+.panel,
+.card,
+.container,
+.box,
+.compact-card,
+.volunteer-card,
+.volunteer-request-section,
+.adopt-section,
+.donate-section,
+.top-navigation,
+.nav-link,
+.home-button,
+.action-link,
+.adopt-link,
+.donate-button,
+.volunteer-button,
+.volunteer-search {
+  border-color: #cfe6ff !important;
 }
