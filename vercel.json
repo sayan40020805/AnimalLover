@@ -1,0 +1,12 @@
+{
+  "framework": "vite",
+  "installCommand": "npm install --prefix lostanimal",
+  "buildCommand": "npm run build --prefix lostanimal",
+  "outputDirectory": "lostanimal/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
